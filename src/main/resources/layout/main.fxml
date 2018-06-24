@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.input.KeyCodeCombination?>
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@/css/basic.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.co.jiro.MainController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="(_F) ファイル">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#newItemOnAction" text="新規" >
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+              </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="終了" onAction="#closeOnAction" >
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+              </accelerator>
+            </MenuItem>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="(_E) 編集">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#skipMenuItemOnAction" text="スキップ" >
+            </MenuItem>
+          </items>
+        </Menu>
+      </menus>
+
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <children>
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="先手 (青)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <AnchorPane id="AnchorPane" prefHeight="-1.0" prefWidth="-1.0">
+                      <children>
+                        <GridPane AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                            <Label text="得点" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <Label fx:id="player1ScoreLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <RadioButton fx:id="fuRadioButton" mnemonicParsing="false" selected="true" text="歩1" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                              <toggleGroup>
+                                <ToggleGroup fx:id="komaToggleGroup" />
+                              </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="ouRadioButton" mnemonicParsing="false" text="金1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <RadioButton fx:id="kinRadioButton" mnemonicParsing="false" text="銀1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <RadioButton fx:id="ginRadioButton" mnemonicParsing="false" text="桂1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <RadioButton fx:id="keimaRadioButton" mnemonicParsing="false" text="角1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                            <RadioButton fx:id="kakuRadioButton" mnemonicParsing="false" text="飛1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <RadioButton fx:id="hishaRadioButton" mnemonicParsing="false" text="香1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                            <RadioButton fx:id="kyoshaRadioButton" mnemonicParsing="false" text="王1" toggleGroup="$komaToggleGroup" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                            <Label fx:id="fuLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label fx:id="kinLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label fx:id="ginLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label fx:id="keimaLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label fx:id="kakuLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                            <Label fx:id="hishaLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            <Label fx:id="kyoshaLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                            <Label fx:id="ouLabel" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                          </children>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </left>
+
+          <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="将棋盤" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <AnchorPane id="Content" fx:id="boardGridPaneParent" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </center>
+
+          <right>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="後手 (赤)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <AnchorPane id="AnchorPane" prefHeight="-1.0" prefWidth="-1.0">
+                      <children>
+                        <GridPane AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                            <Label text="得点" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <Label fx:id="player2ScoreLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <RadioButton fx:id="fuRadioButton2" mnemonicParsing="false" selected="true" text="歩2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                              <toggleGroup>
+                                <ToggleGroup fx:id="komaToggleGroup2" />
+                              </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="ouRadioButton2" mnemonicParsing="false" text="金2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <RadioButton fx:id="kinRadioButton2" mnemonicParsing="false" text="銀2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <RadioButton fx:id="ginRadioButton2" mnemonicParsing="false" text="桂2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <RadioButton fx:id="keimaRadioButton2" mnemonicParsing="false" text="角2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                            <RadioButton fx:id="kakuRadioButton2" mnemonicParsing="false" text="飛2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <RadioButton fx:id="hishaRadioButton2" mnemonicParsing="false" text="香2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                            <RadioButton fx:id="kyoshaRadioButton2" mnemonicParsing="false" text="王2" toggleGroup="$komaToggleGroup2" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                            <Label fx:id="fuLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label fx:id="kinLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label fx:id="ginLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label fx:id="keimaLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label fx:id="kakuLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                            <Label fx:id="hishaLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            <Label fx:id="kyoshaLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                            <Label fx:id="ouLabel2" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                          </children>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </right>
+        </BorderPane>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
