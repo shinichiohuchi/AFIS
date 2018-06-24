@@ -10,22 +10,28 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
     fun put(koma: Koma, pos: Position) {
     }
 
+    /**
+     * print は将棋盤文字列を返却しまｓ．
+     */
     fun createBoardString() : String {
         val s = cells.map { rows ->
             rows.map {
                 val p1s = it.status.player1
                 val p2s = it.status.player2
-                if(p1s == CellStatus.Koma|| p2s == CellStatus.Koma) {
-                    if (p1s ==CellStatus.Koma)
-                        p1s.toString()
-                    else
-                        p2s.toString()
-                } else {
-                    if (it.status.player1 != CellStatus.Empty)
-                        it.status.player1.toString()
-                    else
-                        it.status.player2.toString()
-                }
+                if (p1s != CellStatus.Empty)
+                    when (p1s) {
+                        CellStatus.Empty -> "E"
+                        CellStatus.Ryodo -> "R"
+                        CellStatus.Jinchi -> "J"
+                        else -> p1s.text
+                    }
+                else
+                    when (p2s) {
+                        CellStatus.Empty -> "E"
+                        CellStatus.Ryodo -> "R"
+                        CellStatus.Jinchi -> "J"
+                        else -> p2s.text
+                    }
             }.joinToString(separator = "|", prefix = "|", postfix = "|")
         }.joinToString("\n")
         return s

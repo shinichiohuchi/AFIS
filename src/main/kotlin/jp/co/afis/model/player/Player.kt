@@ -127,7 +127,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Fu)
         }
     }
 
@@ -144,7 +144,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Kin)
         }
     }
 
@@ -162,7 +162,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Gin)
         }
     }
 
@@ -177,7 +177,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(p, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Kyosha)
         }
     }
 
@@ -196,7 +196,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Keima)
         }
     }
 
@@ -211,7 +211,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Hisha)
         }
     }
 
@@ -226,7 +226,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Kaku)
         }
     }
 
@@ -240,7 +240,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+            board.setPlayer1CellStatus(pos, CellStatus.Ou)
         }
     }
 
@@ -281,7 +281,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Fu)
         }
     }
 
@@ -298,7 +298,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Kin)
         }
     }
 
@@ -316,7 +316,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Gin)
         }
     }
 
@@ -331,7 +331,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(p, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Kyosha)
         }
 
     }
@@ -351,7 +351,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Keima)
         }
     }
 
@@ -366,7 +366,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Hisha)
         }
     }
 
@@ -381,7 +381,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Kaku)
         }
     }
 
@@ -395,7 +395,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            board.setPlayer2CellStatus(pos, CellStatus.Ou)
         }
     }
 }

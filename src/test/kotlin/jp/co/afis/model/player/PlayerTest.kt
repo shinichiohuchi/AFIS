@@ -134,7 +134,7 @@ internal class Player1Test {
 
         assertEquals(listOf(
                 Empty, Ryodo, Empty,
-                Jinchi, Koma, Jinchi,
+                Jinchi, Fu, Jinchi,
                 Jinchi, Jinchi, Jinchi,
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
@@ -162,7 +162,7 @@ internal class Player1Test {
 
         assertEquals(listOf(
                 Ryodo, Ryodo, Ryodo,
-                Ryodo, Koma, Ryodo,
+                Ryodo, Kin, Ryodo,
                 Jinchi, Ryodo, Jinchi,
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
@@ -190,7 +190,7 @@ internal class Player1Test {
 
         assertEquals(listOf(
                 Ryodo, Ryodo, Ryodo,
-                Jinchi, Koma, Jinchi,
+                Jinchi, Gin, Jinchi,
                 Ryodo, Jinchi, Ryodo,
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
@@ -219,7 +219,7 @@ internal class Player1Test {
         assertEquals(listOf(
                 Empty, Ryodo, Empty, Ryodo, Empty,
                 Empty, Empty, Empty, Empty, Empty,
-                Jinchi, Jinchi, Koma, Jinchi, Jinchi,
+                Jinchi, Jinchi, Keima, Jinchi, Jinchi,
                 Jinchi, Jinchi, Jinchi, Jinchi, Jinchi,
                 Jinchi, Jinchi, Jinchi, Jinchi, Jinchi,
                 Empty, Empty, Empty, Empty, Empty,
@@ -254,7 +254,7 @@ internal class Player1Test {
         assertEquals(CellStatus.Ryodo, board.cells[3][3].status.player1)
         assertEquals(CellStatus.Ryodo, board.cells[4][3].status.player1)
         assertEquals(CellStatus.Ryodo, board.cells[5][3].status.player1)
-        assertEquals(CellStatus.Koma, board.cells[6][3].status.player1)
+        assertEquals(CellStatus.Kyosha, board.cells[6][3].status.player1)
         assertEquals(CellStatus.Jinchi, board.cells[7][3].status.player1)
         assertEquals(CellStatus.Jinchi, board.cells[8][3].status.player1)
 
@@ -308,8 +308,8 @@ internal class Player1Test {
         p1.attackWithHisha(board, pos)
 
         assertEquals(listOf(
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo, // 行方向
-                Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, // 列方向
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo, // 行方向
+                Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, // 列方向
                 Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty, // 行方向
                 Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty // 列方向
         ), listOf(
@@ -340,8 +340,8 @@ internal class Player1Test {
         p1.attackWithKaku(board, pos)
 
         assertEquals(listOf(
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo,
-                Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
                 Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
                 Empty, Empty, Empty, Empty, Empty, Empty
         ), listOf(
@@ -372,7 +372,7 @@ internal class Player1Test {
 
         assertEquals(listOf(
                 Ryodo, Ryodo, Ryodo,
-                Ryodo, Koma, Ryodo,
+                Ryodo, Ou, Ryodo,
                 Ryodo, Ryodo, Ryodo,
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
@@ -406,7 +406,7 @@ internal class Player2Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
                 Jinchi, Jinchi, Jinchi,
-                Jinchi, Koma, Jinchi,
+                Jinchi, Fu, Jinchi,
                 Empty, Ryodo, Empty
         ), actVec_3x3_p2(board))
     }
@@ -434,7 +434,7 @@ internal class Player2Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
                 Jinchi, Ryodo, Jinchi,
-                Ryodo, Koma, Ryodo,
+                Ryodo, Kin, Ryodo,
                 Ryodo, Ryodo, Ryodo
         ), actVec_3x3_p2(board))
     }
@@ -462,7 +462,7 @@ internal class Player2Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
                 Ryodo, Jinchi, Ryodo,
-                Jinchi, Koma, Jinchi,
+                Jinchi, Gin, Jinchi,
                 Ryodo, Ryodo, Ryodo
         ), actVec_3x3_p2(board))
     }
@@ -493,7 +493,7 @@ internal class Player2Test {
                 Empty, Empty, Empty, Empty, Empty,
                 Jinchi, Jinchi, Jinchi, Jinchi, Jinchi,
                 Jinchi, Jinchi, Jinchi, Jinchi, Jinchi,
-                Jinchi, Jinchi, Koma, Jinchi, Jinchi,
+                Jinchi, Jinchi, Keima, Jinchi, Jinchi,
                 Empty, Empty, Empty, Empty, Empty,
                 Empty, Ryodo, Empty, Ryodo, Empty
         ), actVec_5x5_p2(board))
@@ -540,7 +540,7 @@ internal class Player2Test {
 
                 Jinchi,
                 Jinchi,
-                Koma,
+                Kyosha,
                 Ryodo,
                 Ryodo,
                 Ryodo,
@@ -554,7 +554,7 @@ internal class Player2Test {
                 Jinchi,
                 Jinchi,
                 Jinchi,
-                Koma,
+                Kyosha,
                 Jinchi,
                 Jinchi
         ), listOf(
@@ -621,8 +621,8 @@ internal class Player2Test {
         assertEquals(listOf(
                 Empty, Empty, Empty, Empty, Empty, Empty, Jinchi, Jinchi, Jinchi,
                 Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Ryodo, Ryodo, Koma, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo,
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo
+                Ryodo, Ryodo, Hisha, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo
         ), listOf(
                 f(board, 0, 6), f(board, 1, 6), f(board, 2, 6), f(board, 3, 6), f(board, 4, 6), f(board, 5, 6), f(board, 6, 6), f(board, 7, 6), f(board, 8, 6),
                 f(board, 2, 0), f(board, 2, 1), f(board, 2, 2), f(board, 2, 3), f(board, 2, 4), f(board, 2, 5), f(board, 2, 6), f(board, 2, 7), f(board, 2, 8),
@@ -654,8 +654,8 @@ internal class Player2Test {
                 Empty, Empty, Empty, Empty, Empty,
                 Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
 
-                Ryodo, Ryodo, Koma, Ryodo, Ryodo,
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo
+                Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo
         ), listOf(
                 f(board, 0, 4), f(board, 1, 5), f(board, 2, 6), f(board, 3, 7), f(board, 4, 8),
                 f(board, 8, 0), f(board, 7, 1), f(board, 6, 2), f(board, 5, 3), f(board, 4, 4), f(board, 3, 5), f(board, 2, 6), f(board, 1, 7), f(board, 0, 8),
@@ -687,7 +687,7 @@ internal class Player2Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty,
                 Ryodo, Ryodo, Ryodo,
-                Ryodo, Koma, Ryodo,
+                Ryodo, Ou, Ryodo,
                 Ryodo, Ryodo, Ryodo
         ), actVec_3x3_p2(board))
     }

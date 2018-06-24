@@ -4,8 +4,8 @@ import javafx.geometry.Pos
 import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 
-enum class CellStatus {
-    Empty, Koma, Ryodo, Ryochi, Jinchi
+enum class CellStatus(val text: String) {
+    Empty(""), Fu("歩"), Kin("金"), Gin("銀"), Kyosha("香"), Keima("桂"), Hisha("飛"), Kaku("角"), Ou("王"), Ryodo(""), Jinchi("")
 }
 
 class CellStatuses(var player1: CellStatus = CellStatus.Empty, var player2: CellStatus = CellStatus.Empty)
@@ -14,6 +14,7 @@ open class Cell(open val pos: Position, val status: CellStatuses = CellStatuses(
     fun setPlayer1CellStatus(status: CellStatus) {
         this.status.player1 = status
     }
+
     fun setPlayer2CellStatus(status: CellStatus) {
         this.status.player2 = status
     }
