@@ -76,7 +76,17 @@ internal fun calcRyodoOfKaku(pos: Position, rowMax: Int, colMax: Int): List<Posi
 }
 
 class Players
-abstract class Player(name: String? = null, fuCount: Int)
+abstract class Player(name: String? = null, fuCount: Int) {
+    abstract fun attackWithFu(board: Board, pos: Position)
+    abstract fun attackWithKin(board: Board, pos: Position)
+    abstract fun attackWithGin(board: Board, pos: Position)
+    abstract fun attackWithKeima(board: Board, pos: Position)
+    abstract fun attackWithKyosha(board: Board, pos: Position)
+    abstract fun attackWithHisha(board: Board, pos: Position)
+    abstract fun attackWithKaku(board: Board, pos: Position)
+    abstract fun attackWithOu(board: Board, pos: Position)
+}
+
 class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCount) {
     /** 歩 */
     var fus = mutableListOf(Array(fuCount, { Koma("歩", ::attackWithFu) }))
@@ -107,7 +117,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
      * @param board 将棋盤
      * @param pos 駒の配置位置
      */
-    internal fun attackWithFu(board: Board, pos: Position) {
+    override fun attackWithFu(board: Board, pos: Position) {
         val p = Position(pos.row - 1, pos.col)
         if (0 <= p.row) {
             board.setPlayer1CellStatus(pos, CellStatus.Koma)
@@ -115,7 +125,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         }
     }
 
-    internal fun attackWithKin(board: Board, pos: Position) {
+    override fun attackWithKin(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf(
                 { bp, tp -> bp.row + 1 == tp.row && bp.col - 1 == tp.col },
                 { bp, tp -> bp.row + 1 == tp.row && bp.col + 1 == tp.col })
@@ -125,7 +135,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithGin(board: Board, pos: Position) {
+    override fun attackWithGin(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf(
                 { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
                 { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
@@ -136,7 +146,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKyosha(board: Board, pos: Position) {
+    override fun attackWithKyosha(board: Board, pos: Position) {
         (0..pos.row).forEach {
             val p = Position(it, pos.col)
             board.setPlayer1CellStatus(p, CellStatus.Ryodo)
@@ -144,7 +154,7 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKeima(board: Board, pos: Position) {
+    override fun attackWithKeima(board: Board, pos: Position) {
         val p1 = Position(pos.row - 2, pos.col - 1)
         val p2 = Position(pos.row - 2, pos.col + 1)
         board.setPlayer1CellStatus(p1, CellStatus.Ryodo)
@@ -152,19 +162,19 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithHisha(board: Board, pos: Position) {
+    override fun attackWithHisha(board: Board, pos: Position) {
         val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
         poses.forEach { board.setPlayer1CellStatus(it, CellStatus.Ryodo) }
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKaku(board: Board, pos: Position) {
+    override fun attackWithKaku(board: Board, pos: Position) {
         val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
         poses.forEach { board.setPlayer1CellStatus(it, CellStatus.Ryodo) }
         board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithOu(board: Board, pos: Position) {
+    override fun attackWithOu(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
             board.setPlayer1CellStatus(it, CellStatus.Ryodo)
         }
@@ -198,7 +208,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
     /** 王 */
     var ous = mutableListOf(Array(fuCount, { Koma("王", ::attackWithOu) }))
 
-    internal fun attackWithFu(board: Board, pos: Position) {
+    override fun attackWithFu(board: Board, pos: Position) {
         val p = Position(pos.row + 1, pos.col)
         if (p.row < board.cells.size) {
             board.setPlayer2CellStatus(p, CellStatus.Ryodo)
@@ -206,7 +216,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKin(board: Board, pos: Position) {
+    override fun attackWithKin(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf(
                 { bp, tp -> bp.row - 1 == tp.row && bp.col - 1 == tp.col },
                 { bp, tp -> bp.row - 1 == tp.row && bp.col + 1 == tp.col })
@@ -216,7 +226,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithGin(board: Board, pos: Position) {
+    override fun attackWithGin(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf(
                 { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
                 { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
@@ -227,7 +237,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKyosha(board: Board, pos: Position) {
+    override fun attackWithKyosha(board: Board, pos: Position) {
         (pos.row until board.cells.size).forEach {
             val p = Position(it, pos.col)
             board.setPlayer2CellStatus(p, CellStatus.Ryodo)
@@ -235,7 +245,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKeima(board: Board, pos: Position) {
+    override fun attackWithKeima(board: Board, pos: Position) {
         val p1 = Position(pos.row + 2, pos.col - 1)
         val p2 = Position(pos.row + 2, pos.col + 1)
         board.setPlayer2CellStatus(p1, CellStatus.Ryodo)
@@ -243,19 +253,19 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithHisha(board: Board, pos: Position) {
+    override fun attackWithHisha(board: Board, pos: Position) {
         val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
         poses.forEach { board.setPlayer2CellStatus(it, CellStatus.Ryodo) }
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithKaku(board: Board, pos: Position) {
+    override fun attackWithKaku(board: Board, pos: Position) {
         val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
         poses.forEach { board.setPlayer2CellStatus(it, CellStatus.Ryodo) }
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
-    internal fun attackWithOu(board: Board, pos: Position) {
+    override fun attackWithOu(board: Board, pos: Position) {
         calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
             board.setPlayer2CellStatus(it, CellStatus.Ryodo)
         }

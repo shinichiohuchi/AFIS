@@ -1,6 +1,5 @@
 package jp.co.afis.model.player
 
-import com.sun.xml.internal.ws.api.model.MEP
 import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 import jp.co.afis.model.cell.CellStatus
@@ -68,6 +67,18 @@ private val actVec_5x5_p2: (Board) -> List<CellStatus> =
 
         }
 
+private val testIndexOutOfBoundsException: ((Player, Board, Position) -> Unit) -> Unit = { f ->
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, 0)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, 8)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, 0)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, 8)) }
+
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, 0)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, 8)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, 0)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, 8)) }
+}
+
 // テストコード
 
 internal class PlayerPackageFunctionTest {
@@ -102,6 +113,9 @@ internal class PlayerPackageFunctionTest {
 }
 
 internal class Player1Test {
+    /**
+     * testAttackWithFu は通常の駒の変化をテストします。
+     */
     @Test
     fun testAttackWithFu() {
         val board = Board(9, 9)
@@ -117,6 +131,17 @@ internal class Player1Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty
         ), actVec_3x3(board))
+    }
+
+    /**
+     * testAttackWithFuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithFuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithFu(board, pos)
+        }
     }
 
     @Test
@@ -136,6 +161,17 @@ internal class Player1Test {
         ), actVec_3x3(board))
     }
 
+    /**
+     * testAttackWithKinIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKinIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKin(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithGin() {
         val board = Board(9, 9)
@@ -151,6 +187,17 @@ internal class Player1Test {
                 Empty, Empty, Empty,
                 Empty, Empty, Empty
         ), actVec_3x3(board))
+    }
+
+    /**
+     * testAttackWithGinIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithGinIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithGin(board, pos)
+        }
     }
 
     @Test
@@ -172,6 +219,17 @@ internal class Player1Test {
                 Empty, Empty, Empty, Empty, Empty,
                 Empty, Empty, Empty, Empty, Empty
         ), actVec_5x5(board))
+    }
+
+    /**
+     * testAttackWithKeimaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKeimaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKeima(board, pos)
+        }
     }
 
     @Test
@@ -222,6 +280,17 @@ internal class Player1Test {
         assertEquals(CellStatus.Empty, board.cells[6][8].status.player2)
     }
 
+    /**
+     * testAttackWithKyoshaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKyoshaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKyosha(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithHisha() {
         val board = Board(9, 9)
@@ -241,6 +310,18 @@ internal class Player1Test {
                 f2(board, 6, 0), f2(board, 6, 1), f2(board, 6, 2), f2(board, 6, 3), f2(board, 6, 4), f2(board, 6, 5), f2(board, 6, 6), f2(board, 6, 7), f2(board, 6, 8)
         ))
     }
+
+    /**
+     * testAttackWithHishaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithHishaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithHisha(board, pos)
+        }
+    }
+
 
     @Test
     fun testAttackWithKaku() {
@@ -262,6 +343,17 @@ internal class Player1Test {
         ))
     }
 
+    /**
+     * testAttackWithKakuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKakuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKaku(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithOu() {
         val board = Board(9, 9)
@@ -278,6 +370,18 @@ internal class Player1Test {
                 Empty, Empty, Empty
         ), actVec_3x3(board))
     }
+
+    /**
+     * testAttackWithOuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithOuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithOu(board, pos)
+        }
+    }
+
 }
 
 internal class Player2Test {
@@ -298,6 +402,17 @@ internal class Player2Test {
         ), actVec_3x3_p2(board))
     }
 
+    /**
+     * testAttackWithFuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithFuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithFu(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithKin() {
         val board = Board(9, 9)
@@ -315,6 +430,17 @@ internal class Player2Test {
         ), actVec_3x3_p2(board))
     }
 
+    /**
+     * testAttackWithKinIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKinIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKin(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithGin() {
         val board = Board(9, 9)
@@ -330,6 +456,17 @@ internal class Player2Test {
                 Jinchi, Koma, Jinchi,
                 Ryodo, Ryodo, Ryodo
         ), actVec_3x3_p2(board))
+    }
+
+    /**
+     * testAttackWithGinIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithGinIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithGin(board, pos)
+        }
     }
 
     @Test
@@ -351,6 +488,17 @@ internal class Player2Test {
                 Empty, Empty, Empty, Empty, Empty,
                 Empty, Ryodo, Empty, Ryodo, Empty
         ), actVec_5x5_p2(board))
+    }
+
+    /**
+     * testAttackWithKeimaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKeimaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKeima(board, pos)
+        }
     }
 
     @Test
@@ -443,6 +591,17 @@ internal class Player2Test {
                 ))
     }
 
+    /**
+     * testAttackWithKyoshaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKyoshaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKyosha(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithHisha() {
         val board = Board(9, 9)
@@ -462,6 +621,18 @@ internal class Player2Test {
                 f2(board, 2, 0), f2(board, 2, 1), f2(board, 2, 2), f2(board, 2, 3), f2(board, 2, 4), f2(board, 2, 5), f2(board, 2, 6), f2(board, 2, 7), f2(board, 2, 8)
         ))
     }
+
+    /**
+     * testAttackWithHishaIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithHishaIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithHisha(board, pos)
+        }
+    }
+
 
     @Test
     fun testAttackWithKaku() {
@@ -484,6 +655,17 @@ internal class Player2Test {
         ))
     }
 
+    /**
+     * testAttackWithKakuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithKakuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithKaku(board, pos)
+        }
+    }
+
     @Test
     fun testAttackWithOu() {
         val board = Board(9, 9)
@@ -500,4 +682,16 @@ internal class Player2Test {
                 Ryodo, Ryodo, Ryodo
         ), actVec_3x3_p2(board))
     }
+
+    /**
+     * testAttackWithOuIndexOutOfBoundsException は済に駒を配置したときに
+     * IndexOutOfBoundsExceptionが発生しないことをテストします。
+     */
+    @Test
+    fun testAttackWithOuIndexOutOfBoundsException() {
+        testIndexOutOfBoundsException { player, board, pos ->
+            player.attackWithOu(board, pos)
+        }
+    }
+
 }
