@@ -10,6 +10,28 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
     fun put(koma: Koma, pos: Position) {
     }
 
+    fun createBoardString() : String {
+        val s = cells.map { rows ->
+            rows.map {
+                val p1s = it.status.player1
+                val p2s = it.status.player2
+                if(p1s == CellStatus.Koma|| p2s == CellStatus.Koma) {
+                    if (p1s ==CellStatus.Koma)
+                        p1s.toString()
+                    else
+                        p2s.toString()
+                } else {
+                    if (it.status.player1 != CellStatus.Empty)
+                        it.status.player1.toString()
+                    else
+                        it.status.player2.toString()
+                }
+            }.joinToString(separator = "|", prefix = "|", postfix = "|")
+        }.joinToString("\n")
+        return s
+    }
+
+
     fun setPlayer1CellStatus(pos: Position, status: CellStatus) {
         cells[pos.row][pos.col].setPlayer1CellStatus(status)
     }
