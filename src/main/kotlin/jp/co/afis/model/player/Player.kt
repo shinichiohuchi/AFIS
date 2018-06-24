@@ -122,69 +122,126 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         val colMax = board.cells[0].size
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
-            board.setPlayer1CellStatus(pos, CellStatus.Koma)
             Position(pos.row - 1, pos.col).let {
-               if (it.isWithinBoardRange(rowMax, colMax))  {
-                   board.setPlayer1CellStatus(it, CellStatus.Ryodo)
-               }
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
             }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
         }
     }
 
     override fun attackWithKin(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf(
-                { bp, tp -> bp.row + 1 == tp.row && bp.col - 1 == tp.col },
-                { bp, tp -> bp.row + 1 == tp.row && bp.col + 1 == tp.col })
-        ).forEach {
-            board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            calcRyodo3x3(pos, listOf(
+                    { bp, tp -> bp.row + 1 == tp.row && bp.col - 1 == tp.col },
+                    { bp, tp -> bp.row + 1 == tp.row && bp.col + 1 == tp.col })
+            ).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithGin(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf(
-                { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
-                { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
-                { bp, tp -> bp.row + 1 == tp.row && bp.col == tp.col })
-        ).forEach {
-            board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            calcRyodo3x3(pos, listOf(
+                    { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
+                    { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
+                    { bp, tp -> bp.row + 1 == tp.row && bp.col == tp.col })
+            ).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithKyosha(board: Board, pos: Position) {
-        (0..pos.row).forEach {
-            val p = Position(it, pos.col)
-            board.setPlayer1CellStatus(p, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            (0..pos.row).forEach {
+                val p = Position(it, pos.col)
+                if (p.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(p, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithKeima(board: Board, pos: Position) {
-        val p1 = Position(pos.row - 2, pos.col - 1)
-        val p2 = Position(pos.row - 2, pos.col + 1)
-        board.setPlayer1CellStatus(p1, CellStatus.Ryodo)
-        board.setPlayer1CellStatus(p2, CellStatus.Ryodo)
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            Position(pos.row - 2, pos.col - 1).let {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            Position(pos.row - 2, pos.col + 1).let {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithHisha(board: Board, pos: Position) {
-        val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
-        poses.forEach { board.setPlayer1CellStatus(it, CellStatus.Ryodo) }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
+            poses.forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithKaku(board: Board, pos: Position) {
-        val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
-        poses.forEach { board.setPlayer1CellStatus(it, CellStatus.Ryodo) }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
+            poses.forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithOu(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
-            board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)){
+            calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)){
+                    board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer1CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer1CellStatus(pos, CellStatus.Koma)
     }
 
 }
@@ -219,69 +276,127 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
         val colMax = board.cells[0].size
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
             Position(pos.row + 1, pos.col).let {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
         }
     }
 
     override fun attackWithKin(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf(
-                { bp, tp -> bp.row - 1 == tp.row && bp.col - 1 == tp.col },
-                { bp, tp -> bp.row - 1 == tp.row && bp.col + 1 == tp.col })
-        ).forEach {
-            board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            calcRyodo3x3(pos, listOf(
+                    { bp, tp -> bp.row - 1 == tp.row && bp.col - 1 == tp.col },
+                    { bp, tp -> bp.row - 1 == tp.row && bp.col + 1 == tp.col })
+            ).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithGin(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf(
-                { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
-                { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
-                { bp, tp -> bp.row - 1 == tp.row && bp.col == tp.col })
-        ).forEach {
-            board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            calcRyodo3x3(pos, listOf(
+                    { bp, tp -> bp.row == tp.row && bp.col - 1 == tp.col },
+                    { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
+                    { bp, tp -> bp.row - 1 == tp.row && bp.col == tp.col })
+            ).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithKyosha(board: Board, pos: Position) {
-        (pos.row until board.cells.size).forEach {
-            val p = Position(it, pos.col)
-            board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            (pos.row until board.cells.size).forEach {
+                val p = Position(it, pos.col)
+                if (p.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
+
     }
 
     override fun attackWithKeima(board: Board, pos: Position) {
-        val p1 = Position(pos.row + 2, pos.col - 1)
-        val p2 = Position(pos.row + 2, pos.col + 1)
-        board.setPlayer2CellStatus(p1, CellStatus.Ryodo)
-        board.setPlayer2CellStatus(p2, CellStatus.Ryodo)
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            Position(pos.row + 2, pos.col - 1).let {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            Position(pos.row + 2, pos.col + 1).let {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithHisha(board: Board, pos: Position) {
-        val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
-        poses.forEach { board.setPlayer2CellStatus(it, CellStatus.Ryodo) }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
+            poses.forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithKaku(board: Board, pos: Position) {
-        val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
-        poses.forEach { board.setPlayer2CellStatus(it, CellStatus.Ryodo) }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
+            poses.forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+        }
     }
 
     override fun attackWithOu(board: Board, pos: Position) {
-        calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
-            board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)){
+            calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
+                if (it.isWithinBoardRange(rowMax, colMax)){
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
         }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 }
 
