@@ -14,8 +14,8 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
      * print は将棋盤文字列を返却しまｓ．
      */
     fun createBoardString() : String {
-        val s = cells.map { rows ->
-            rows.map {
+        val s = cells.joinToString("\n") {
+            it.joinToString(separator = "|", prefix = "|", postfix = "|") {
                 val p1s = it.status.player1
                 val p2s = it.status.player2
                 if (p1s != CellStatus.Empty)
@@ -32,8 +32,8 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
                         CellStatus.Jinchi -> "J"
                         else -> p2s.text
                     }
-            }.joinToString(separator = "|", prefix = "|", postfix = "|")
-        }.joinToString("\n")
+            }
+        }
         return s
     }
 
