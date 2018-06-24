@@ -200,9 +200,10 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
 
     internal fun attackWithFu(board: Board, pos: Position) {
         val p = Position(pos.row + 1, pos.col)
-        if (p.row < board.cells.size)
-            board.setPlayer2CellStatus(pos, CellStatus.Koma)
-        board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+        if (p.row < board.cells.size) {
+            board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+        }
+        board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
     internal fun attackWithKin(board: Board, pos: Position) {
@@ -244,7 +245,7 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
 
     internal fun attackWithHisha(board: Board, pos: Position) {
         val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
-        poses.forEach { board.setPlayer2CellStatus(pos, CellStatus.Ryodo) }
+        poses.forEach { board.setPlayer2CellStatus(it, CellStatus.Ryodo) }
         board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 

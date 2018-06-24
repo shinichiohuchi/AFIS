@@ -19,8 +19,20 @@ private val actVec_3x3: (Board) -> List<CellStatus> =
                     f(b, 6, 2), f(b, 6, 3), f(b, 6, 4),
                     f(b, 7, 2), f(b, 7, 3), f(b, 7, 4),
 
-                    f2(b, 5, 2), f2(b, 5, 3), f2(b, 5, 4), f2(b, 6, 2), f2(b, 6, 3), f2(b, 6, 4),
+                    f2(b, 5, 2), f2(b, 5, 3), f2(b, 5, 4),
+                    f2(b, 6, 2), f2(b, 6, 3), f2(b, 6, 4),
                     f2(b, 7, 2), f2(b, 7, 3), f2(b, 7, 4))
+        }
+private val actVec_3x3_p2: (Board) -> List<CellStatus> =
+        { b ->
+            listOf<CellStatus>(
+                    f(b, 3, 5), f(b, 3, 6), f(b, 3, 7),
+                    f(b, 4, 5), f(b, 4, 6), f(b, 4, 7),
+                    f(b, 5, 5), f(b, 5, 6), f(b, 5, 7),
+
+                    f2(b, 1, 5), f2(b, 1, 6), f2(b, 1, 7),
+                    f2(b, 2, 5), f2(b, 2, 6), f2(b, 2, 7),
+                    f2(b, 3, 5), f2(b, 3, 6), f2(b, 3, 7) )
         }
 private val actVec_5x5: (Board) -> List<CellStatus> =
         { b ->
@@ -37,6 +49,22 @@ private val actVec_5x5: (Board) -> List<CellStatus> =
                     f2(b, 7, 1), f2(b, 7, 2), f2(b, 7, 3), f2(b, 7, 4), f2(b, 7, 5),
                     f2(b, 8, 1), f2(b, 8, 2), f2(b, 8, 3), f2(b, 8, 4), f2(b, 8, 5)
             )
+
+        }
+private val actVec_5x5_p2: (Board) -> List<CellStatus> =
+        { b ->
+            listOf<CellStatus>(
+                    f(b, 0, 4), f(b, 0, 5), f(b, 0, 6), f(b, 0, 7), f(b, 0, 8),
+                    f(b, 1, 4), f(b, 1, 5), f(b, 1, 6), f(b, 1, 7), f(b, 1, 8),
+                    f(b, 2, 4), f(b, 2, 5), f(b, 2, 6), f(b, 2, 7), f(b, 2, 8),
+                    f(b, 3, 4), f(b, 3, 5), f(b, 3, 6), f(b, 3, 7), f(b, 3, 8),
+                    f(b, 4, 4), f(b, 4, 5), f(b, 4, 6), f(b, 4, 7), f(b, 4, 8),
+
+                    f2(b, 0, 4), f2(b, 0, 5), f2(b, 0, 6), f2(b, 0, 7), f2(b, 0, 8),
+                    f2(b, 1, 4), f2(b, 1, 5), f2(b, 1, 6), f2(b, 1, 7), f2(b, 1, 8),
+                    f2(b, 2, 4), f2(b, 2, 5), f2(b, 2, 6), f2(b, 2, 7), f2(b, 2, 8),
+                    f2(b, 3, 4), f2(b, 3, 5), f2(b, 3, 6), f2(b, 3, 7), f2(b, 3, 8),
+                    f2(b, 4, 4), f2(b, 4, 5), f2(b, 4, 6), f2(b, 4, 7), f2(b, 4, 8))
 
         }
 
@@ -257,7 +285,7 @@ internal class Player2Test {
     fun testAttackWithFu() {
         val board = Board(9, 9)
         val p2 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p2.attackWithFu(board, pos)
 
         assertEquals(listOf(
@@ -267,14 +295,14 @@ internal class Player2Test {
                 Jinchi, Jinchi, Jinchi,
                 Jinchi, Koma, Jinchi,
                 Empty, Ryodo, Empty
-        ), actVec_3x3(board))
+        ), actVec_3x3_p2(board))
     }
 
     @Test
     fun testAttackWithKin() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithKin(board, pos)
 
         assertEquals(listOf(
@@ -284,14 +312,14 @@ internal class Player2Test {
                 Jinchi, Ryodo, Jinchi,
                 Ryodo, Koma, Ryodo,
                 Ryodo, Ryodo, Ryodo
-        ), actVec_3x3(board))
+        ), actVec_3x3_p2(board))
     }
 
     @Test
     fun testAttackWithGin() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithGin(board, pos)
 
         assertEquals(listOf(
@@ -301,14 +329,14 @@ internal class Player2Test {
                 Ryodo, Jinchi, Ryodo,
                 Jinchi, Koma, Jinchi,
                 Ryodo, Ryodo, Ryodo
-        ), actVec_3x3(board))
+        ), actVec_3x3_p2(board))
     }
 
     @Test
     fun testAttackWithKeima() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithKeima(board, pos)
 
         assertEquals(listOf(
@@ -322,14 +350,14 @@ internal class Player2Test {
                 Jinchi, Jinchi, Koma, Jinchi, Jinchi,
                 Empty, Empty, Empty, Empty, Empty,
                 Empty, Ryodo, Empty, Ryodo, Empty
-        ), actVec_5x5(board))
+        ), actVec_5x5_p2(board))
     }
 
     @Test
     fun testAttackWithKyosha() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithKyosha(board, pos)
 
         assertEquals(listOf(
@@ -351,6 +379,7 @@ internal class Player2Test {
                 Empty,
                 Empty,
                 Empty,
+                Empty,
 
                 Jinchi,
                 Jinchi,
@@ -358,78 +387,79 @@ internal class Player2Test {
                 Ryodo,
                 Ryodo,
                 Ryodo,
-                Koma,
+                Ryodo,
                 Ryodo,
                 Ryodo,
 
                 Jinchi,
                 Jinchi,
                 Jinchi,
+                Jinchi,
+                Jinchi,
+                Jinchi,
                 Koma,
-                Jinchi,
-                Jinchi,
                 Jinchi,
                 Jinchi
         ), listOf(
-                f(board, 0, 3),
-                f(board, 1, 3),
-                f(board, 2, 3),
-                f(board, 3, 3),
-                f(board, 4, 3),
-                f(board, 5, 3),
-                f(board, 6, 3),
-                f(board, 7, 3),
-                f(board, 8, 3),
-
-                f(board, 6, 0),
-                f(board, 6, 1),
-                f(board, 6, 2),
-                f(board, 6, 3),
-                f(board, 6, 4),
-                f(board, 6, 5),
+                f(board, 0, 6),
+                f(board, 1, 6),
+                f(board, 2, 6),
+                f(board, 3, 6),
+                f(board, 4, 6),
+                f(board, 5, 6),
                 f(board, 6, 6),
-                f(board, 6, 7),
-                f(board, 6, 8),
+                f(board, 7, 6),
+                f(board, 8, 6),
 
-                f2(board, 0, 3),
-                f2(board, 1, 3),
-                f2(board, 2, 3),
-                f2(board, 3, 3),
-                f2(board, 4, 3),
-                f2(board, 5, 3),
-                f2(board, 6, 3),
-                f2(board, 7, 3),
-                f2(board, 8, 3),
+                f(board, 2, 0),
+                f(board, 2, 1),
+                f(board, 2, 2),
+                f(board, 2, 3),
+                f(board, 2, 4),
+                f(board, 2, 5),
+                f(board, 2, 6),
+                f(board, 2, 7),
+                f(board, 2, 8),
 
-                f2(board, 6, 0),
-                f2(board, 6, 1),
-                f2(board, 6, 2),
-                f2(board, 6, 3),
-                f2(board, 6, 4),
-                f2(board, 6, 5),
+                f2(board, 0, 6),
+                f2(board, 1, 6),
+                f2(board, 2, 6),
+                f2(board, 3, 6),
+                f2(board, 4, 6),
+                f2(board, 5, 6),
                 f2(board, 6, 6),
-                f2(board, 6, 7),
-                f2(board, 6, 8)
-        ))
+                f2(board, 7, 6),
+                f2(board, 8, 6),
+
+                f2(board, 2, 0),
+                f2(board, 2, 1),
+                f2(board, 2, 2),
+                f2(board, 2, 3),
+                f2(board, 2, 4),
+                f2(board, 2, 5),
+                f2(board, 2, 6),
+                f2(board, 2, 7),
+                f2(board, 2, 8)
+                ))
     }
 
     @Test
     fun testAttackWithHisha() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithHisha(board, pos)
 
         assertEquals(listOf(
-                Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty, // 行方向
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, // 列方向
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo, // 行方向
-                Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo // 列方向
+                Empty, Empty, Empty, Empty, Empty, Empty, Jinchi, Jinchi, Jinchi,
+                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                Ryodo, Ryodo, Koma, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo
         ), listOf(
-                f(board, 0, 3), f(board, 1, 3), f(board, 2, 3), f(board, 3, 3), f(board, 4, 3), f(board, 5, 3), f(board, 6, 3), f(board, 7, 3), f(board, 8, 3),
-                f(board, 6, 0), f(board, 6, 1), f(board, 6, 2), f(board, 6, 3), f(board, 6, 4), f(board, 6, 5), f(board, 6, 6), f(board, 6, 7), f(board, 6, 8),
-                f2(board, 0, 3), f2(board, 1, 3), f2(board, 2, 3), f2(board, 3, 3), f2(board, 4, 3), f2(board, 5, 3), f2(board, 6, 3), f2(board, 7, 3), f2(board, 8, 3),
-                f2(board, 6, 0), f2(board, 6, 1), f2(board, 6, 2), f2(board, 6, 3), f2(board, 6, 4), f2(board, 6, 5), f2(board, 6, 6), f2(board, 6, 7), f2(board, 6, 8)
+                f(board, 0, 6), f(board, 1, 6), f(board, 2, 6), f(board, 3, 6), f(board, 4, 6), f(board, 5, 6), f(board, 6, 6), f(board, 7, 6), f(board, 8, 6),
+                f(board, 2, 0), f(board, 2, 1), f(board, 2, 2), f(board, 2, 3), f(board, 2, 4), f(board, 2, 5), f(board, 2, 6), f(board, 2, 7), f(board, 2, 8),
+                f2(board, 0, 6), f2(board, 1, 6), f2(board, 2, 6), f2(board, 3, 6), f2(board, 4, 6), f2(board, 5, 6), f2(board, 6, 6), f2(board, 7, 6), f2(board, 8, 6),
+                f2(board, 2, 0), f2(board, 2, 1), f2(board, 2, 2), f2(board, 2, 3), f2(board, 2, 4), f2(board, 2, 5), f2(board, 2, 6), f2(board, 2, 7), f2(board, 2, 8)
         ))
     }
 
@@ -437,19 +467,20 @@ internal class Player2Test {
     fun testAttackWithKaku() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithKaku(board, pos)
 
         assertEquals(listOf(
-                Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty,
-                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo,
-                Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo
+                Empty, Empty, Empty, Empty, Empty,
+                Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
+
+                Ryodo, Ryodo, Koma, Ryodo, Ryodo,
+                Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Koma, Ryodo, Ryodo
         ), listOf(
-                f(board, 1, 8), f(board, 2, 7), f(board, 3, 6), f(board, 4, 5), f(board, 5, 4), f(board, 6, 3), f(board, 7, 2), f(board, 8, 1),
-                f(board, 3, 0), f(board, 4, 1), f(board, 5, 2), f(board, 6, 3), f(board, 7, 4), f(board, 8, 5),
-                f2(board, 1, 8), f2(board, 2, 7), f2(board, 3, 6), f2(board, 4, 5), f2(board, 5, 4), f2(board, 6, 3), f2(board, 7, 2), f2(board, 8, 1),
-                f2(board, 3, 0), f2(board, 4, 1), f2(board, 5, 2), f2(board, 6, 3), f2(board, 7, 4), f2(board, 8, 5)
+                f(board, 0, 4), f(board, 1, 5), f(board, 2, 6), f(board, 3, 7), f(board, 4, 8),
+                f(board, 8, 0), f(board, 7, 1), f(board, 6, 2), f(board, 5, 3), f(board, 4, 4), f(board, 3, 5), f(board, 2, 6), f(board, 1, 7), f(board, 0, 8),
+                f2(board, 0, 4), f2(board, 1, 5), f2(board, 2, 6), f2(board, 3, 7), f2(board, 4, 8),
+                f2(board, 8, 0), f2(board, 7, 1), f2(board, 6, 2), f2(board, 5, 3), f2(board, 4, 4), f2(board, 3, 5), f2(board, 2, 6), f2(board, 1, 7), f2(board, 0, 8)
         ))
     }
 
@@ -457,16 +488,16 @@ internal class Player2Test {
     fun testAttackWithOu() {
         val board = Board(9, 9)
         val p1 = Player2("hoge", 9)
-        val pos = Position(6, 3)
+        val pos = Position(2, 6)
         p1.attackWithOu(board, pos)
 
         assertEquals(listOf(
+                Empty, Empty, Empty,
+                Empty, Empty, Empty,
+                Empty, Empty, Empty,
                 Ryodo, Ryodo, Ryodo,
                 Ryodo, Koma, Ryodo,
-                Ryodo, Ryodo, Ryodo,
-                Empty, Empty, Empty,
-                Empty, Empty, Empty,
-                Empty, Empty, Empty
-        ), actVec_3x3(board))
+                Ryodo, Ryodo, Ryodo
+        ), actVec_3x3_p2(board))
     }
 }
