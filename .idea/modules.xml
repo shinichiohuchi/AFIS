@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/afis.iml" filepath="$PROJECT_DIR$/.idea/modules/afis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/afis_main.iml" filepath="$PROJECT_DIR$/.idea/modules/afis_main.iml" group="afis" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/afis_test.iml" filepath="$PROJECT_DIR$/.idea/modules/afis_test.iml" group="afis" />
+    </modules>
+  </component>
+</project>

@@ -33,7 +33,8 @@ repositories {
 dependencies {
     compile("org.codehaus.groovy:groovy-all:2.3.11")
     compile(kotlinModule("stdlib-jdk8", kotlin_version))
-    testCompile("junit", "junit", "4.12")
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0")
 }
 
 configure<JavaPluginConvention> {

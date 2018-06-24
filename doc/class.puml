@@ -1,0 +1,108 @@
+@startuml game
+
+title ShogiGame
+
+package jp.co.xxxx {
+    package bean {
+        class Position {
+            - row
+            - col
+        }
+    }
+
+    package model {
+        class Game {
+            - players
+            - board
+            - updateCurrentPlayer()
+            + click(row, col)
+        }
+
+        class Board {
+            - rowMax
+            - colMax
+            - cells
+            + put(koma, pos)
+        }
+
+        package player {
+            class Players {
+                - player
+                + getCurrentPlayer()
+            }
+            class Player {
+                # name
+                # komas
+            }
+            class Player1
+            class Player2
+        }
+
+        package cell {
+            class Cell {
+                + pos
+                + text
+            }
+
+            class Komas {
+                - komas
+            }
+
+            class Koma {
+                - attackStrategy
+                + attack(board, pos)
+            }
+
+            class Fu
+            class Gin
+            class Hisha
+            class Kaku
+            class Keima
+            class Kin
+            class Kyosha
+            class Ou
+
+            package strategy {
+                package attack {
+                    interface AttackStrategy {
+                        + attack(board, pos)
+                    }
+                    class Player1Attack
+                    class Player2Attack
+                }
+            }
+        }
+    }
+}
+
+Game -- Board
+Game -- Players
+Board --> Cell
+Players --> Player
+Koma ..|> Cell : 継承
+Cell --> Position
+
+Player -- Komas
+Komas --> Koma
+Player1 ..|> Player : 継承
+Player2 ..|> Player : 継承
+
+Koma --> AttackStrategy
+Koma --> Position
+Koma --> Board
+Fu ..|> Koma  : 継承
+Gin ..|> Koma : 継承
+Hisha ..|> Koma : 継承
+Kaku ..|> Koma : 継承
+Keima ..|> Koma : 継承
+Kin ..|> Koma : 継承
+Kyosha ..|> Koma : 継承
+Ou ..|> Koma : 継承
+
+Player1Attack --|> AttackStrategy : 実装
+Player2Attack --|> AttackStrategy : 実装
+
+AttackStrategy --> Board
+AttackStrategy --> Position
+
+@enduml

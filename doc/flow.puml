@@ -1,0 +1,30 @@
+@startuml img/flow.png
+
+title seq
+
+actor user1
+actor user2
+
+activate user1
+user1 -> game : 歩を選択
+user1 -> game : 9, 1に歩を配置
+game -> board : 9, 1に歩を配置
+board -> board : 配置可能かのチェック
+board -> board : 9, 1に歩を配置
+board -> game : 正常終了
+game -> game : currentPlayerを変更
+game -> user1 : 正常終了
+deactivate user1
+
+activate user2
+user2 -> game : 歩を選択
+user2 -> game : 1, 9に歩を配置
+game -> board : 1, 9に歩を配置
+board -> board : 配置可能かのチェック
+board -> board : 1, 9に歩を配置
+board -> game : 正常終了
+game -> game : currentPlayerを変更
+game -> user2 : 正常終了
+deactivate user2
+
+@enduml
