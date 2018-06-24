@@ -9,26 +9,26 @@ internal class PositionTest {
 
     @Test
     fun testIsWithinBoardRange() {
-        val f: (Int, Int) -> Boolean = { r, c -> Position(r, c).isWithinBoardRange(9, 9) }
+        val f: (Int, Int) -> Boolean = { r, c -> Position(r, c).isWithinBoardRange(4, 8) }
 
         assertAll(
                 Executable { assertEquals(false, f(0, -1)) },
                 Executable { assertEquals(true, f(0, 0)) },
-                Executable { assertEquals(true, f(0, 8)) },
-                Executable { assertEquals(false, f(0, 9)) },
-                Executable { assertEquals(false, f(8, -1)) },
-                Executable { assertEquals(true, f(8, 0)) },
-                Executable { assertEquals(true, f(8, 8)) },
-                Executable { assertEquals(false, f(8, 9)) },
+                Executable { assertEquals(true, f(0, 7)) },
+                Executable { assertEquals(false, f(0, 8)) },
+                Executable { assertEquals(false, f(3, -1)) },
+                Executable { assertEquals(true, f(3, 0)) },
+                Executable { assertEquals(true, f(3, 7)) },
+                Executable { assertEquals(false, f(3, 8)) },
 
                 Executable { assertEquals(false, f(-1, 0)) },
                 Executable { assertEquals(true, f(0, 0)) },
-                Executable { assertEquals(true, f(8, 0)) },
-                Executable { assertEquals(false, f(9, 0)) },
-                Executable { assertEquals(false, f(-1, 8)) },
-                Executable { assertEquals(true, f(0, 8)) },
-                Executable { assertEquals(true, f(8, 8)) },
-                Executable { assertEquals(false, f(9, 8)) }
+                Executable { assertEquals(true, f(3, 0)) },
+                Executable { assertEquals(false, f(4, 0)) },
+                Executable { assertEquals(false, f(-1, 7)) },
+                Executable { assertEquals(true, f(0, 7)) },
+                Executable { assertEquals(true, f(3, 7)) },
+                Executable { assertEquals(false, f(4, 7)) }
         )
     }
 }
