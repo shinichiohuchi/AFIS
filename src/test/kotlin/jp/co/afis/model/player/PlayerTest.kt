@@ -68,15 +68,24 @@ private val actVec_5x5_p2: (Board) -> List<CellStatus> =
         }
 
 private val testIndexOutOfBoundsException: ((Player, Board, Position) -> Unit) -> Unit = { f ->
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, -1)) }
     Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, 0)) }
     Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, 8)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(0, 9)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, -1)) }
     Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, 0)) }
     Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, 8)) }
+    Board(9, 9).let { f(Player1("hoge", 9), it, Position(8, 9)) }
 
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, -1)) }
     Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, 0)) }
     Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, 8)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(0, 9)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, -1)) }
     Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, 0)) }
     Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, 8)) }
+    Board(9, 9).let { f(Player2("hoge", 9), it, Position(8, 9)) }
+
 }
 
 // テストコード

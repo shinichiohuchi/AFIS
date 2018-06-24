@@ -118,10 +118,16 @@ class Player1(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
      * @param pos 駒の配置位置
      */
     override fun attackWithFu(board: Board, pos: Position) {
-        val p = Position(pos.row - 1, pos.col)
-        if (0 <= p.row) {
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
             board.setPlayer1CellStatus(pos, CellStatus.Koma)
-            board.setPlayer1CellStatus(p, CellStatus.Ryodo)
+            Position(pos.row - 1, pos.col).let {
+               if (it.isWithinBoardRange(rowMax, colMax))  {
+                   board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+               }
+            }
         }
     }
 
@@ -209,11 +215,17 @@ class Player2(name: String, fuCount: Int) : Player(name = name, fuCount = fuCoun
     var ous = mutableListOf(Array(fuCount, { Koma("王", ::attackWithOu) }))
 
     override fun attackWithFu(board: Board, pos: Position) {
-        val p = Position(pos.row + 1, pos.col)
-        if (p.row < board.cells.size) {
-            board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+        val rowMax = board.cells.size
+        val colMax = board.cells[0].size
+
+        if (pos.isWithinBoardRange(rowMax, colMax)) {
+            board.setPlayer2CellStatus(pos, CellStatus.Koma)
+            Position(pos.row + 1, pos.col).let {
+                if (it.isWithinBoardRange(rowMax, colMax)) {
+                    board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                }
+            }
         }
-        board.setPlayer2CellStatus(pos, CellStatus.Koma)
     }
 
     override fun attackWithKin(board: Board, pos: Position) {
