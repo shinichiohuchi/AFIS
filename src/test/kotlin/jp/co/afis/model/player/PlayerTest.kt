@@ -13,7 +13,7 @@ private val f: (Board, Int, Int) -> CellStatus = { b, r, c -> b.cells[r][c].stat
 private val f2: (Board, Int, Int) -> CellStatus = { b, r, c -> b.cells[r][c].status.player2 }
 private val actVec_3x3: (Board) -> List<CellStatus> =
         { b ->
-            listOf<CellStatus>(
+            listOf(
                     f(b, 5, 2), f(b, 5, 3), f(b, 5, 4),
                     f(b, 6, 2), f(b, 6, 3), f(b, 6, 4),
                     f(b, 7, 2), f(b, 7, 3), f(b, 7, 4),
@@ -24,7 +24,7 @@ private val actVec_3x3: (Board) -> List<CellStatus> =
         }
 private val actVec_3x3_p2: (Board) -> List<CellStatus> =
         { b ->
-            listOf<CellStatus>(
+            listOf(
                     f(b, 3, 5), f(b, 3, 6), f(b, 3, 7),
                     f(b, 4, 5), f(b, 4, 6), f(b, 4, 7),
                     f(b, 5, 5), f(b, 5, 6), f(b, 5, 7),
@@ -35,7 +35,7 @@ private val actVec_3x3_p2: (Board) -> List<CellStatus> =
         }
 private val actVec_5x5: (Board) -> List<CellStatus> =
         { b ->
-            listOf<CellStatus>(
+            listOf(
                     f(b, 4, 1), f(b, 4, 2), f(b, 4, 3), f(b, 4, 4), f(b, 4, 5),
                     f(b, 5, 1), f(b, 5, 2), f(b, 5, 3), f(b, 5, 4), f(b, 5, 5),
                     f(b, 6, 1), f(b, 6, 2), f(b, 6, 3), f(b, 6, 4), f(b, 6, 5),
@@ -52,7 +52,7 @@ private val actVec_5x5: (Board) -> List<CellStatus> =
         }
 private val actVec_5x5_p2: (Board) -> List<CellStatus> =
         { b ->
-            listOf<CellStatus>(
+            listOf(
                     f(b, 0, 4), f(b, 0, 5), f(b, 0, 6), f(b, 0, 7), f(b, 0, 8),
                     f(b, 1, 4), f(b, 1, 5), f(b, 1, 6), f(b, 1, 7), f(b, 1, 8),
                     f(b, 2, 4), f(b, 2, 5), f(b, 2, 6), f(b, 2, 7), f(b, 2, 8),
