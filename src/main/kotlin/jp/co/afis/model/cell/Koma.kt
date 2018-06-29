@@ -50,44 +50,6 @@ internal fun createInitCells(row: Int, col: Int): Array<Array<Cell>> {
 
 class Koma(val text: String, val attack: (Board, Position) -> Unit)
 
-//class Gin(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Hisha(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Kaku(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Keima(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Kin(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Kyosha(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
-//
-//class Ou(text: String, pos: Position, attackStrategy: AttackStrategy) : Koma(text = text, pos = pos, attackStrategy = attackStrategy) {
-//    override fun attack(board: Board, pos: Position) {
-//        attackStrategy.attack(board, pos)
-//    }
-//}
+enum class KomaType {
+    FU, KIN, GIN, KEIMA, KYOSHA, HISHA, KAKU, OU
+}

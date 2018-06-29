@@ -4,8 +4,10 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.CellStatus.*
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.function.Executable
 
 // assertチェック用の関数
 
@@ -31,7 +33,7 @@ private val actVec_3x3_p2: (Board) -> List<CellStatus> =
 
                     f2(b, 1, 5), f2(b, 1, 6), f2(b, 1, 7),
                     f2(b, 2, 5), f2(b, 2, 6), f2(b, 2, 7),
-                    f2(b, 3, 5), f2(b, 3, 6), f2(b, 3, 7) )
+                    f2(b, 3, 5), f2(b, 3, 6), f2(b, 3, 7))
         }
 private val actVec_5x5: (Board) -> List<CellStatus> =
         { b ->
@@ -122,6 +124,32 @@ internal class PlayerPackageFunctionTest {
 }
 
 internal class Player1Test {
+    @Test
+    fun testConstructor() {
+        val player1 = Player1()
+        assertAll(
+                // デフォルト駒数
+                Executable { assertEquals(9, player1.fus.size) },
+                Executable { assertEquals(2, player1.kins.size) },
+                Executable { assertEquals(2, player1.gins.size) },
+                Executable { assertEquals(2, player1.kyoshas.size) },
+                Executable { assertEquals(2, player1.keimas.size) },
+                Executable { assertEquals(1, player1.hishas.size) },
+                Executable { assertEquals(1, player1.kakus.size) },
+                Executable { assertEquals(1, player1.ous.size) },
+
+                // セットされている関数
+                Executable { assertEquals(player1.fus.first().attack, player1::attackWithFu) },
+                Executable { assertEquals(player1.kins.first().attack, player1::attackWithKin) },
+                Executable { assertEquals(player1.gins.first().attack, player1::attackWithGin) },
+                Executable { assertEquals(player1.keimas.first().attack, player1::attackWithKeima) },
+                Executable { assertEquals(player1.kyoshas.first().attack, player1::attackWithKyosha) },
+                Executable { assertEquals(player1.hishas.first().attack, player1::attackWithHisha) },
+                Executable { assertEquals(player1.kakus.first().attack, player1::attackWithKaku) },
+                Executable { assertEquals(player1.ous.first().attack, player1::attackWithOu) }
+        )
+    }
+
     /**
      * testAttackWithFu は通常の駒の変化をテストします。
      */
@@ -395,6 +423,32 @@ internal class Player1Test {
 
 internal class Player2Test {
     @Test
+    fun testConstructor() {
+        val player2 = Player2()
+        assertAll(
+                // デフォルト駒数
+                Executable { assertEquals(9, player2.fus.size) },
+                Executable { assertEquals(2, player2.kins.size) },
+                Executable { assertEquals(2, player2.gins.size) },
+                Executable { assertEquals(2, player2.kyoshas.size) },
+                Executable { assertEquals(2, player2.keimas.size) },
+                Executable { assertEquals(1, player2.hishas.size) },
+                Executable { assertEquals(1, player2.kakus.size) },
+                Executable { assertEquals(1, player2.ous.size) },
+
+                // セットされている関数
+                Executable { assertEquals(player2.fus.first().attack, player2::attackWithFu) },
+                Executable { assertEquals(player2.kins.first().attack, player2::attackWithKin) },
+                Executable { assertEquals(player2.gins.first().attack, player2::attackWithGin) },
+                Executable { assertEquals(player2.keimas.first().attack, player2::attackWithKeima) },
+                Executable { assertEquals(player2.kyoshas.first().attack, player2::attackWithKyosha) },
+                Executable { assertEquals(player2.hishas.first().attack, player2::attackWithHisha) },
+                Executable { assertEquals(player2.kakus.first().attack, player2::attackWithKaku) },
+                Executable { assertEquals(player2.ous.first().attack, player2::attackWithOu) }
+        )
+    }
+
+    @Test
     fun testAttackWithFu() {
         val board = Board(9, 9)
         val p2 = Player2("hoge", 9)
@@ -597,7 +651,7 @@ internal class Player2Test {
                 f2(board, 2, 6),
                 f2(board, 2, 7),
                 f2(board, 2, 8)
-                ))
+        ))
     }
 
     /**

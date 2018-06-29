@@ -7,6 +7,19 @@ import jp.co.afis.model.cell.Koma
 import jp.co.afis.model.cell.createInitCells
 
 class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(row, col)) {
+    /**
+     * PutResult はputメソッドの実行結果です。
+     */
+    enum class PutResult {
+        /** 正常に配置できた */
+        SUCCESS,
+        /** すでに駒が存在する */
+        KOMA_EXISTS,
+        /** すでに領土が存在する */
+        RYODO_EXISTS,
+        /** そもそも自分の領域ではない */
+        NOT_OWN_AREA,
+    }
     fun put(koma: Koma, pos: Position) {
     }
 
