@@ -1,9 +1,30 @@
 package jp.co.afis.model
 
 import jp.co.afis.bean.Position
+import jp.co.afis.model.player.Player
+import jp.co.afis.model.player.Player1
+import jp.co.afis.model.player.Player2
 import jp.co.afis.model.player.Players
 
-class Game(val players: Players, val board: Board) {
+/**
+ * AppliableStatus はセルに駒を配置可能かの状態
+ */
+enum class AppliableStatus {
+    /** 正常に配置できた */
+    SUCCESS,
+    /** すでに駒が存在する */
+    KOMA_EXISTS,
+    /** すでに領土が存在する */
+    RYODO_EXISTS,
+    /** そもそも自分の領域ではない */
+    NOT_OWN_AREA,
+}
+
+internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player) : AppliableStatus {
+    return AppliableStatus.KOMA_EXISTS
+}
+
+class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
     /**
      * click は指定の位置のセルをクリックする。
      * クリックを正常に完了できた場合は、ターンが切り替わり、
@@ -11,14 +32,13 @@ class Game(val players: Players, val board: Board) {
      * @param pos クリック位置
      */
     fun click(pos: Position) {
-//        val koma = players.pop()
-//        val result = board.put(koma)
-//        if (result == Board.PutResult.SUCCESS) {
-//            players.switchCurrentPlayer()
-//        } else {
-//            players.push(koma)
+//        val cell = board.getCell(pos)
+//        when (players.currentPlayer) {
+//            is Player1 -> {
+//                TODO("hoge")
+//            }
+//            is Player2 -> TODO("todo")
 //        }
-//        return result
     }
 
     /**

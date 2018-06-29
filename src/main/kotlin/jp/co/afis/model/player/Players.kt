@@ -53,10 +53,11 @@ internal fun getSwitchedAttack(komaType: KomaType, player: Player): (Board, Posi
 class Players(
         val player1: Player1 = Player1()
         , val player2: Player2 = Player2()
-        , private var currentPlayer: Player = player1
+        , var currentPlayer: Player = player1
         , private var currentAttackStrategy: (Board, Position) -> Unit = currentPlayer::attackWithFu
 ) {
-    fun attack() {
+    fun attack(board: Board, pos: Position) {
+        currentAttackStrategy(board, pos)
     }
 
     /**
@@ -71,7 +72,7 @@ class Players(
      * @param komaType 駒タイプ
      */
     fun switchAttackStrategy(komaType: KomaType) {
-        getSwitchedAttack(komaType, currentPlayer)
+        currentAttackStrategy = getSwitchedAttack(komaType, currentPlayer)
     }
 }
 

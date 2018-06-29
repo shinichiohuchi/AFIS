@@ -5,7 +5,18 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 
 enum class CellStatus(val text: String) {
-    Empty(""), Fu("歩"), Kin("金"), Gin("銀"), Kyosha("香"), Keima("桂"), Hisha("飛"), Kaku("角"), Ou("王"), Ryodo(""), Jinchi("")
+    Empty("")
+    , Fu("歩")
+    , Kin("金")
+    , Gin("銀")
+    , Kyosha("香")
+    , Keima("桂")
+    , Hisha("飛")
+    , Kaku("角")
+    , Ou("王")
+    , Ryodo("")
+    , Ryochi("")
+    , Jinchi("")
 }
 
 class CellStatuses(var player1: CellStatus = CellStatus.Empty, var player2: CellStatus = CellStatus.Empty)

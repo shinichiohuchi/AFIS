@@ -3,25 +3,18 @@ package jp.co.afis.model
 import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.Cell
 import jp.co.afis.model.cell.CellStatus
-import jp.co.afis.model.cell.Koma
 import jp.co.afis.model.cell.createInitCells
 
 class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(row, col)) {
     /**
-     * PutResult はputメソッドの実行結果です。
+     * getCell は指定位置のセルを取得する。
+     * @param pos 指定位置
+     * @return 指定位置のセル
      */
-    enum class PutResult {
-        /** 正常に配置できた */
-        SUCCESS,
-        /** すでに駒が存在する */
-        KOMA_EXISTS,
-        /** すでに領土が存在する */
-        RYODO_EXISTS,
-        /** そもそも自分の領域ではない */
-        NOT_OWN_AREA,
+    fun getCell(pos: Position) : Cell {
+        return cells[pos.row][pos.col]
     }
-    fun put(koma: Koma, pos: Position) {
-    }
+
 
     /**
      * print は将棋盤文字列を返却しまｓ．
