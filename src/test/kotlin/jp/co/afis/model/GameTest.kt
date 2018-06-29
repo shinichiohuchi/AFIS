@@ -17,242 +17,255 @@ internal class GameTest {
         val col = 2
         val pos = Position(row, col)
 
-        assertAll(
-                // Pattern1 ~ 10
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Fu
-                    board.cells[row][col].status.player2 = CellStatus.Ryodo
+        for (koma in listOf(
+                CellStatus.Fu,
+                CellStatus.Kin,
+                CellStatus.Gin,
+                CellStatus.Keima,
+                CellStatus.Kyosha,
+                CellStatus.Hisha,
+                CellStatus.Kaku,
+                CellStatus.Ou
+        )) {
+            assertAll(
+                    // Pattern1 ~ 10
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = koma
+                        board.cells[row][col].status.player2 = CellStatus.Ryodo
 
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
 
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Fu
-                    board.cells[row][col].status.player2 = CellStatus.Ryochi
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = koma
+                        board.cells[row][col].status.player2 = CellStatus.Ryochi
 
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
 
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Fu
-                    board.cells[row][col].status.player2 = CellStatus.Jinchi
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = koma
+                        board.cells[row][col].status.player2 = CellStatus.Jinchi
 
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
 
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Fu
-                    board.cells[row][col].status.player2 = CellStatus.Empty
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = koma
+                        board.cells[row][col].status.player2 = CellStatus.Empty
 
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
 
-                },
+                    },
 
-                // Pattern11 ~ 20
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryodo
-                    board.cells[row][col].status.player2 = CellStatus.Fu
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryodo
-                    board.cells[row][col].status.player2 = CellStatus.Ryodo
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryodo
-                    board.cells[row][col].status.player2 = CellStatus.Ryochi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryodo
-                    board.cells[row][col].status.player2 = CellStatus.Jinchi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryodo
-                    board.cells[row][col].status.player2 = CellStatus.Empty
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
+                    // Pattern11 ~ 20
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryodo
+                        board.cells[row][col].status.player2 = koma
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryodo
+                        board.cells[row][col].status.player2 = CellStatus.Ryodo
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryodo
+                        board.cells[row][col].status.player2 = CellStatus.Ryochi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryodo
+                        board.cells[row][col].status.player2 = CellStatus.Jinchi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryodo
+                        board.cells[row][col].status.player2 = CellStatus.Empty
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
 
-                // Pattern21 ~ 30
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryochi
-                    board.cells[row][col].status.player2 = CellStatus.Fu
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryochi
-                    board.cells[row][col].status.player2 = CellStatus.Ryodo
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryochi
-                    board.cells[row][col].status.player2 = CellStatus.Ryochi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryochi
-                    board.cells[row][col].status.player2 = CellStatus.Jinchi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Ryochi
-                    board.cells[row][col].status.player2 = CellStatus.Empty
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
-                    )
-                },
+                    // Pattern21 ~ 30
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryochi
+                        board.cells[row][col].status.player2 = koma
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryochi
+                        board.cells[row][col].status.player2 = CellStatus.Ryodo
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryochi
+                        board.cells[row][col].status.player2 = CellStatus.Ryochi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryochi
+                        board.cells[row][col].status.player2 = CellStatus.Jinchi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Ryochi
+                        board.cells[row][col].status.player2 = CellStatus.Empty
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
 
 
-                // Pattern31 ~ 40
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Jinchi
-                    board.cells[row][col].status.player2 = CellStatus.Fu
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Jinchi
-                    board.cells[row][col].status.player2 = CellStatus.Ryodo
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Jinchi
-                    board.cells[row][col].status.player2 = CellStatus.Ryochi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable { // 本来なら発生しない組み合わせ
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Jinchi
-                    board.cells[row][col].status.player2 = CellStatus.Jinchi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Jinchi
-                    board.cells[row][col].status.player2 = CellStatus.Empty
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
-                    )
-                },
+                    // Pattern31 ~ 40
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Jinchi
+                        board.cells[row][col].status.player2 = koma
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Jinchi
+                        board.cells[row][col].status.player2 = CellStatus.Ryodo
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Jinchi
+                        board.cells[row][col].status.player2 = CellStatus.Ryochi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        // 本来なら発生しない組み合わせ
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Jinchi
+                        board.cells[row][col].status.player2 = CellStatus.Jinchi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Jinchi
+                        board.cells[row][col].status.player2 = CellStatus.Empty
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
 
-                // Pattern41 ~ 50
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Empty
-                    board.cells[row][col].status.player2 = CellStatus.Fu
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Empty
-                    board.cells[row][col].status.player2 = CellStatus.Ryodo
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Empty
-                    board.cells[row][col].status.player2 = CellStatus.Ryochi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Empty
-                    board.cells[row][col].status.player2 = CellStatus.Jinchi
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
-                    )
-                },
-                Executable {
-                    val board = Board(9, 9)
-                    board.cells[row][col].status.player1 = CellStatus.Empty
-                    board.cells[row][col].status.player2 = CellStatus.Empty
-                    assertAll(
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
-                    )
-                }
-        )
+                    // Pattern41 ~ 50
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Empty
+                        board.cells[row][col].status.player2 = koma
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Empty
+                        board.cells[row][col].status.player2 = CellStatus.Ryodo
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Empty
+                        board.cells[row][col].status.player2 = CellStatus.Ryochi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Empty
+                        board.cells[row][col].status.player2 = CellStatus.Jinchi
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                        )
+                    },
+                    Executable {
+                        val board = Board(9, 9)
+                        board.cells[row][col].status.player1 = CellStatus.Empty
+                        board.cells[row][col].status.player2 = CellStatus.Empty
+                        assertAll(
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                        )
+                    }
+            )
+
+        }
     }
 
     @Test
@@ -260,8 +273,8 @@ internal class GameTest {
     }
 
     @Test
-    fun print(){
-        val game = Game(players = Players(), board = Board(9,9) )
+    fun print() {
+        val game = Game(players = Players(), board = Board(9, 9))
         game.print()
     }
 
