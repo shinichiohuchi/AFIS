@@ -135,8 +135,8 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Ryochi
                     board.cells[row][col].status.player2 = CellStatus.Ryochi
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
                 Executable {
@@ -144,8 +144,8 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Ryochi
                     board.cells[row][col].status.player2 = CellStatus.Jinchi
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
                 Executable {
@@ -153,7 +153,7 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Ryochi
                     board.cells[row][col].status.player2 = CellStatus.Empty
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
                             Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
                     )
                 },
@@ -183,8 +183,8 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Jinchi
                     board.cells[row][col].status.player2 = CellStatus.Ryochi
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
                 Executable { // 本来なら発生しない組み合わせ
@@ -192,8 +192,8 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Jinchi
                     board.cells[row][col].status.player2 = CellStatus.Jinchi
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
                 Executable {
@@ -201,7 +201,7 @@ internal class GameTest {
                     board.cells[row][col].status.player1 = CellStatus.Jinchi
                     board.cells[row][col].status.player2 = CellStatus.Empty
                     assertAll(
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player1())) },
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
                             Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
                     )
                 },
@@ -231,16 +231,16 @@ internal class GameTest {
                     board.cells[row][col].status.player2 = CellStatus.Ryochi
                     assertAll(
                             Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
-                Executable { // 本来なら発生しない組み合わせ
+                Executable {
                     val board = Board(9, 9)
                     board.cells[row][col].status.player1 = CellStatus.Empty
                     board.cells[row][col].status.player2 = CellStatus.Jinchi
                     assertAll(
                             Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                            Executable { assertEquals(AppliableStatus.SUCCESS, calcAppliable(board, pos, Player2())) }
+                            Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
                     )
                 },
                 Executable {
