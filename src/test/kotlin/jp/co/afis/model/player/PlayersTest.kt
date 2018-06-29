@@ -131,6 +131,14 @@ internal class PlayersTest {
         val p = Players()
         p.switchAttackStrategy(KomaType.FU)
     }
+
+    @Test
+    fun testHasEnoughCountOfKomas() {
+        val p = Players()
+        assertAll(
+                Executable { assertEquals(true, p.hasEnoughCountOfKomas()) }
+        )
+    }
 }
 
 

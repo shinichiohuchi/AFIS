@@ -81,13 +81,15 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
      * @param pos クリック位置
      */
     fun click(pos: Position) {
-//        val cell = board.getCell(pos)
-//        when (players.currentPlayer) {
-//            is Player1 -> {
-//                TODO("hoge")
-//            }
-//            is Player2 -> TODO("todo")
-//        }
+        val appliable = calcAppliable(board, pos, players.currentPlayer)
+        when (appliable) {
+            AppliableStatus.OK -> {
+                players.attack(board, pos)
+            }
+            else -> {
+
+            }
+        }
     }
 
     /**

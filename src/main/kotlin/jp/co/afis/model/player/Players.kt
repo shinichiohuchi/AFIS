@@ -60,6 +60,10 @@ class Players(
         currentAttackStrategy(board, pos)
     }
 
+    fun hasEnoughCountOfKomas() : Boolean {
+        return true
+    }
+
     /**
      * switchCurrentPlayer は現在のターンのプレイヤーを切り換えます。
      */
