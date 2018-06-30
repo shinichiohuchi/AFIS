@@ -3,10 +3,7 @@ package jp.co.afis.model
 import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.KomaType
-import jp.co.afis.model.player.Player
-import jp.co.afis.model.player.Player1
-import jp.co.afis.model.player.Player2
-import jp.co.afis.model.player.Players
+import jp.co.afis.model.player.*
 
 fun main(args: Array<String>) {
     val game = Game()
@@ -36,7 +33,7 @@ enum class AppliableStatus {
  * @param currentPlayer 操作プレイヤー
  * @return 配置可否、および不可の理由
  */
-internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player) : AppliableStatus {
+internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player): AppliableStatus {
     val row = pos.row
     val col = pos.col
 
@@ -99,7 +96,9 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
         return when (appliable) {
             AppliableStatus.OK -> {
                 players.attack(board, pos)
+                board.clearJinchi(players.currentPlayer)
                 players.switchCurrentPlayer()
+                board.updateRyochi()
                 appliable
             }
             else -> {
@@ -144,7 +143,84 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
         }
     }
 
-    fun calcPlayer1Score() :Int {
-        return 0
+    fun calcPlayer1Score(): Int {
+        return board.calcPlayer1Score()
     }
+
+    fun calcPlayer2Score(): Int {
+        return board.calcPlayer2Score()
+    }
+
+    /**
+     * getWinner は勝者を返す。
+     * @return 勝者
+     */
+    fun getWinner(): Winner {
+        val player1Score = board.calcPlayer1Score()
+        val player2Score = board.calcPlayer2Score()
+        val sum = player1Score + player2Score
+        val row = board.cells.size
+        val col = board.cells[0].size
+        val cellCount = row * col
+        return if (sum < cellCount)
+            Winner.NONE
+        else {
+            when {
+                player1Score < player2Score -> Winner.PLAYER2
+                player2Score < player1Score -> Winner.PLAYER1
+                else -> Winner.SAME_SCORE
+            }
+        }
+    }
+
+    /**
+     * getCellDispStatus は画面病が用のセルステータスを返す
+     */
+    fun getCellDispStatus(pos: Position): CellDispStatus {
+        val cell = board.getCell(pos)
+
+        if (cell.status.player1 == CellStatus.Ryochi && cell.status.player2 == CellStatus.Ryochi)
+            return CellDispStatus.BOTH_RYOCHI
+
+        when (cell.status.player1) {
+            CellStatus.Fu
+                , CellStatus.Kin
+                , CellStatus.Gin
+                , CellStatus.Keima
+                , CellStatus.Kyosha
+                , CellStatus.Hisha
+                , CellStatus.Kaku
+                , CellStatus.Ou -> return CellDispStatus.PLAYER1_KOMA
+            CellStatus.Ryodo -> return CellDispStatus.PLAYER1_RYODO
+            CellStatus.Ryochi -> return CellDispStatus.PLAYER1_RYOCHI
+        }
+        when (cell.status.player2) {
+            CellStatus.Fu
+                , CellStatus.Kin
+                , CellStatus.Gin
+                , CellStatus.Keima
+                , CellStatus.Kyosha
+                , CellStatus.Hisha
+                , CellStatus.Kaku
+                , CellStatus.Ou -> return CellDispStatus.PLAYER2_KOMA
+            CellStatus.Ryodo -> return CellDispStatus.PLAYER2_RYODO
+            CellStatus.Ryochi -> return CellDispStatus.PLAYER2_RYOCHI
+        }
+        return CellDispStatus.NONE
+    }
+
 }
+
+enum class CellDispStatus {
+    NONE,
+    PLAYER1_KOMA,
+    PLAYER1_RYODO,
+    PLAYER1_RYOCHI,
+    PLAYER1_JINCHI,
+    PLAYER2_KOMA,
+    PLAYER2_RYODO,
+    PLAYER2_RYOCHI,
+    PLAYER2_JINCHI,
+    BOTH_RYOCHI
+}
+

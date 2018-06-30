@@ -13,9 +13,12 @@ import jp.co.afis.control.MyLabel;
 import jp.co.afis.cell.Attack;
 import jp.co.afis.model.AppliableStatus;
 import jp.co.afis.model.Board;
+import jp.co.afis.model.CellDispStatus;
 import jp.co.afis.model.Game;
 import jp.co.afis.model.cell.Cell;
 import jp.co.afis.model.cell.CellStatus;
+import jp.co.afis.model.cell.KomaType;
+import jp.co.afis.model.player.Winner;
 import jp.co.afis.player.NonPlayer;
 import jp.co.afis.player.Player;
 import jp.co.afis.player.Player2;
@@ -119,7 +122,29 @@ public class MainController {
 
     @FXML
     private void initialize() {
+        komaToggleGroup.selectedToggleProperty().addListener(e -> {
+            RadioButton radio = (RadioButton) komaToggleGroup.getSelectedToggle();
+            String text = radio.getText();
 
+            switch (text) {
+                case "歩":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.FU);
+                case "金":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KIN);
+                case "銀":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.GIN);
+                case "桂":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KEIMA);
+                case "角":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KAKU);
+                case "飛":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.HISHA);
+                case "香":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KYOSHA);
+                case "王":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.OU);
+            }
+        });
     }
 
     /**
@@ -147,7 +172,7 @@ public class MainController {
                 .replaceAll("９", "9")
                 .replaceAll("０", "0")
                 .replaceAll("　", " ")
-                ;
+        ;
 
         String[] arr = result.split(" +");
         if (arr.length < 2) {
@@ -264,8 +289,15 @@ public class MainController {
 //        int player2Score = 0;
 
         List<Node> nodeList = boardGridPane.getChildren();
-        int player1Score = 0;
-        int player2Score = 0;
+
+        // セルの色の初期化
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                int index = calcArrayIndex(i + 1, j + 1, colCount);
+                Node node = nodeList.get(index);
+                node.setStyle("-fx-background-color: white;");
+            }
+        }
 
         // 駒と領土の描画
         for (int i = 0; i < cells.length; i++) {
@@ -273,33 +305,43 @@ public class MainController {
                 Cell cell = cells[i][j];
                 int index = calcArrayIndex(i + 1, j + 1, colCount);
 
-                jp.co.afis.model.player.Player player = game.getPlayers().getCurrentPlayer();
-                CellStatus status = cell.getStatus().getPlayer1();
                 Node node = nodeList.get(index);
+                jp.co.afis.model.player.Player currentPlayer = game.getPlayers().getCurrentPlayer();
 
-                if (status == CellStatus.Fu) {
-                    if (player instanceof jp.co.afis.model.player.Player1) {
-                        player1Score++;
+                CellDispStatus dispStatus = game.getCellDispStatus(new Position(i, j));
+                switch (dispStatus) {
+                    case PLAYER1_KOMA:
                         node.setStyle("-fx-background-color: #1e90ff;");
-                    } else if (player instanceof jp.co.afis.model.player.Player2) {
-                        player2Score++;
-                        node.setStyle("-fx-background-color: #cd5c5c;");
-                    }
-                } else if (status == CellStatus.Ryodo) {
-                    if (player instanceof jp.co.afis.model.player.Player1) {
-                        player1Score++;
+                        break;
+                    case PLAYER1_RYODO:
                         node.setStyle("-fx-background-color: #87ceeb;");
-                    } else if (player instanceof jp.co.afis.model.player.Player2) {
-                        player2Score++;
+                        break;
+                    case PLAYER1_RYOCHI:
+                        if (currentPlayer instanceof jp.co.afis.model.player.Player1)
+                            node.setStyle("-fx-background-color: yellow;");
+                        break;
+                    case PLAYER1_JINCHI:
+                        if (currentPlayer instanceof jp.co.afis.model.player.Player1)
+                            node.setStyle("-fx-background-color: #a9a9a9;");
+                        break;
+                    case PLAYER2_KOMA:
+                        node.setStyle("-fx-background-color: #cd5c5c;");
+                        break;
+                    case PLAYER2_RYODO:
                         node.setStyle("-fx-background-color: #f08080;");
-                    }
-                } else if (status == CellStatus.Ryochi) {
-                } else if (status == CellStatus.Jinchi) {
-                    node.setStyle("-fx-background-color: #a9a9a9;");
-                } else {
-                    node.setStyle("-fx-background-color: white;");
+                        break;
+                    case PLAYER2_RYOCHI:
+                        if (currentPlayer instanceof jp.co.afis.model.player.Player2)
+                            node.setStyle("-fx-background-color: yellow;");
+                        break;
+                    case PLAYER2_JINCHI:
+                        if (currentPlayer instanceof jp.co.afis.model.player.Player2)
+                            node.setStyle("-fx-background-color: #a9a9a9;");
+                        break;
+                    case BOTH_RYOCHI:
+                        node.setStyle("-fx-background-color: yellow;");
+                        break;
                 }
-
 
 //                if (!(cell instanceof Attack || cell instanceof Ryodo)) {
 //                    int cellFlag = cell.getClickableBitFlag();
@@ -333,28 +375,44 @@ public class MainController {
         ouLabel2.setText("" + game.getPlayers().getPlayer2().getOuCount());
 
         // 得点を更新する。
+        int player1Score = game.calcPlayer1Score();
+        int player2Score = game.calcPlayer2Score();
         player1ScoreLabel.setText("" + player1Score);
         player2ScoreLabel.setText("" + player2Score);
 
         // 勝敗の判定
-//        int rowLen = board.getCells().length;
-//        int colLen = board.getCells()[0].length;
-//        int totalCellCount = rowLen * colLen;
-//        int totalPlayerScore = player1Score + player2Score;
-//        if (totalCellCount <= totalPlayerScore) {
-//            String winner = player1Score < player2Score ? "後手" : "先手";
-//
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setHeaderText("ゲーム終了！");
-//            final String CR = System.lineSeparator();
-//            String text =
-//                    "先手の得点 : " + player1Score + CR
-//                    + "後手の得点 : " + player2Score + CR + CR
-//                    + "勝者は " + winner + " です！"
-//                    ;
-//            alert.setContentText(text);
-//            alert.showAndWait();
-//        }
+        showWinner(player1Score, player2Score);
+    }
+
+    private void showWinner(int player1Score, int player2Score) {
+        Winner winner = game.getWinner();
+        if (winner == Winner.NONE)
+            return;
+
+        if (winner == Winner.PLAYER1 || winner == Winner.PLAYER2) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("ゲーム終了！");
+            final String CR = System.lineSeparator();
+            String text =
+                    "先手の得点 : " + player1Score + CR
+                            + "後手の得点 : " + player2Score + CR + CR
+                            + "勝者は " + winner + " です！";
+            alert.setContentText(text);
+            alert.showAndWait();
+            return;
+        }
+
+        if (winner == Winner.SAME_SCORE) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("ゲーム終了！");
+            final String CR = System.lineSeparator();
+            String text =
+                    "先手の得点 : " + player1Score + CR
+                            + "後手の得点 : " + player2Score + CR + CR
+                            + "同点です！";
+            alert.setContentText(text);
+            alert.showAndWait();
+        }
     }
 
     private int calcArrayIndex(int row, int col, int colMax) {
@@ -363,12 +421,13 @@ public class MainController {
 
     /**
      * 渡された文字と等しい駒ビルダーを返却する。
+     *
      * @param komaText
      * @param player
      * @return
      */
     private ShougiCellBuilder pollSelectedShougiCellBuilder(String komaText, Player player) {
-        komaText = komaText.substring(0,1);
+        komaText = komaText.substring(0, 1);
         switch (komaText) {
             case "歩":
                 return player.pollFu();
@@ -393,13 +452,14 @@ public class MainController {
     /**
      * 駒ビルダーを元のリストに返却する。
      * 一度取り出したビルダーをもとに戻すために使う。
+     *
      * @param builder
      * @param komaText
      * @param player
      * @return
      */
     private boolean offerFirstSelectedShougiCellBuilder(ShougiCellBuilder builder, String komaText, Player player) {
-        komaText = komaText.substring(0,1);
+        komaText = komaText.substring(0, 1);
         switch (komaText) {
             case "歩":
                 return player.offerFirstFu(builder);

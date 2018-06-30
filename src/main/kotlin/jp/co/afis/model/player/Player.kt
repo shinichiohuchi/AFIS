@@ -73,6 +73,20 @@ internal fun calcRyodoOfKaku(pos: Position, rowMax: Int, colMax: Int): List<Posi
     ).flatMap { it }
 }
 
+/**
+ * ゲームの勝者
+ */
+enum class Winner {
+    /** 勝者なし */
+    NONE,
+    /** 先手 */
+    PLAYER1,
+    /** 後手 */
+    PLAYER2,
+    /** 同点 */
+    SAME_SCORE
+}
+
 abstract class Player(
         name: String? = null
         , var fuCount: Int = 9

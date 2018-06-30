@@ -136,4 +136,23 @@ internal class BoardTest {
         )
     }
 
+    @Test
+    fun testUpdateRyochi() {
+        val board = Board(9, 9)
+        board.cells[6][2].status.player1 = CellStatus.Fu
+        board.cells[5][2].status.player1 = CellStatus.Ryodo
+        board.updateRyochi()
+        assertAll(
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][1]) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][2]) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][3]) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][1]) },
+                Executable { assertEquals(CellStatus.Ryodo, board.cells[5][2]) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][3]) },
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[5][1]) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][2]) },
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[5][3]) }
+        )
+    }
+
 }
