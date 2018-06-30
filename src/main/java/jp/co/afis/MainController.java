@@ -7,9 +7,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import jp.co.afis.bean.Position;
 import jp.co.afis.cell.*;
 import jp.co.afis.control.MyLabel;
 import jp.co.afis.cell.Attack;
+import jp.co.afis.model.AppliableStatus;
+import jp.co.afis.model.Board;
+import jp.co.afis.model.Game;
+import jp.co.afis.model.cell.Cell;
+import jp.co.afis.model.cell.CellStatus;
 import jp.co.afis.player.NonPlayer;
 import jp.co.afis.player.Player;
 import jp.co.afis.player.Player2;
@@ -21,10 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class MainController {
-    private ShougiBoard board;
-
-    private LinkedList<Player> playerTurnList;
-
     @FXML
     private AnchorPane boardGridPaneParent;
     @FXML
@@ -113,6 +115,8 @@ public class MainController {
     @FXML
     private Label ouLabel2;
 
+    private Game game;
+
     @FXML
     private void initialize() {
 
@@ -179,25 +183,19 @@ public class MainController {
         Optional<ButtonType> opt = alert.showAndWait();
         opt.ifPresent(b -> {
             if (b == ButtonType.YES) {
-                if (playerTurnList == null || playerTurnList.size() == 0) {
-                    return;
-                }
-
-                Player p = playerTurnList.poll();
-                playerTurnList.add(p);
-                updateDisplay();
+//                if (playerTurnList == null || playerTurnList.size() == 0) {
+//                    return;
+//                }
+//
+//                Player p = playerTurnList.poll();
+//                playerTurnList.add(p);
+//                updateDisplay();
             }
         });
     }
 
     private void createBoard(int row, int col) {
-        board = new ShougiBoard(row, col, komaToggleGroup, komaToggleGroup2);
-
-        playerTurnList = new LinkedList<Player>() {{
-            add(new Player1(row, col, komaToggleGroup));
-            add(new Player2(row, col, komaToggleGroup2));
-        }};
-
+        game = new Game(new Board(row, col));
 
         final double W = 50.0;
         final double H = 50.0;
@@ -216,80 +214,24 @@ public class MainController {
                     int r = label.getRow();
                     int c = label.getCol();
 
-                    // プレイヤー
-                    Player player = playerTurnList.poll();
-                    ToggleGroup group = player.getGroup();
-                    RadioButton selected = (RadioButton) group.getSelectedToggle();
-                    String text = selected.getText();
-                    ShougiCellBuilder builder = pollSelectedShougiCellBuilder(text, player);
-                    if (builder == null) {
-                        playerTurnList.addFirst(player);
-                        //offerFirstSelectedShougiCellBuilder(builder, text, player);
-                        AlertUtil.showAlert("配置可能な駒が残っていません");
-                        return;
-                    }
-                    // プレイヤーの駒を取得
-                    ShougiCell playerKoma = builder.create(r, c);
-                    // 設置場所のセル
-                    ShougiCell cell = board.getCells()[r][c];
-
-                    // クリックしたセルが駒だった場合は、不正
-                    if (cell instanceof Attack) {
-                        playerTurnList.addFirst(player);
-                        offerFirstSelectedShougiCellBuilder(builder, text, player);
-                        AlertUtil.showAlert("駒の上には配置できません");
-                        return;
+                    AppliableStatus result = game.click(new Position(r, c));
+                    switch (result) {
+                        case OK:
+                            break;
+                        case KOMA_EXISTS:
+                            AlertUtil.showAlert("駒の上には配置できません。");
+                            break;
+                        case RYODO_EXISTS:
+                            AlertUtil.showAlert("領土の上には配置できません。");
+                            break;
+                        case NOT_OWN_AREA:
+                            AlertUtil.showAlert("駒または領土に隣接しないマスに配置できません");
+                            break;
                     }
 
-                    // クリックしたセルが領土だった場合は、不正
-                    if (cell instanceof Ryodo ) {
-                        playerTurnList.addFirst(player);
-                        offerFirstSelectedShougiCellBuilder(builder, text, player);
-                        AlertUtil.showAlert("領土の上には、配置できません");
-                        return;
-                    }
-
-                    // 駒または領土に隣接しないマスには配置できない
-                    if (cell instanceof EmptyCell) {
-                        int cpFlg = cell.getPlayer().getPlayerBitFlag();
-                        int pFlg = player.getPlayerBitFlag();
-                        if ((cpFlg & pFlg) != pFlg) {
-                            if ((cell.getClickableBitFlag() & pFlg) != pFlg) {
-                                playerTurnList.addFirst(player);
-                                offerFirstSelectedShougiCellBuilder(builder, text, player);
-                                AlertUtil.showAlert("駒または領土に隣接しないマスに配置できません");
-                                return;
-                            }
-                        }
-                    }
-
-
-                    // 陣地を消す
-                    for (ShougiCell[] cells : board.getCells()) {
-                        for (ShougiCell t : cells) {
-                            if (t instanceof Jinchi) {
-                                if (player instanceof Player1) {
-                                    Player p = t.getPlayer();
-                                    if (p instanceof Player2) {
-                                        int cellRow = t.getRow();
-                                        int cellCol = t.getCol();
-                                        board.setCell(new EmptyCell(cellRow, cellCol, new NonPlayer()));
-                                    }
-                                } else if (player instanceof Player2) {
-                                    Player p = t.getPlayer();
-                                    if (p instanceof Player1) {
-                                        int cellRow = t.getRow();
-                                        int cellCol = t.getCol();
-                                        board.setCell(new EmptyCell(cellRow, cellCol, new NonPlayer()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-
+                    Cell cell = game.getBoard().getCell(new Position(r, c));
+                    String text = game.getBoard().getCellText(cell);
                     label.setText(text);
-                    board.setCell(playerKoma);
-                    playerTurnList.addLast(player);
                     updateDisplay();
                 });
                 boardGridPane.add(label, j, i);
@@ -304,110 +246,115 @@ public class MainController {
      * セルの状態を判定して背景色を変更する。
      */
     void updateDisplay() {
-        String playerName = playerTurnList.getFirst() instanceof Player1 ? "先手" : "後手";
+        //String playerName = playerTurnList.getFirst() instanceof Player1 ? "先手" : "後手";
 
         // ターン表示
-        Stage stage = (Stage) boardGridPane.getScene().getWindow();
-        stage.setTitle(Main.TITLE + " : " + playerName);
+//        Stage stage = (Stage) boardGridPane.getScene().getWindow();
+//        stage.setTitle(Main.TITLE + " : " + playerName);
 
 
-        int colCount = board.getCol();
+//        int colCount = board.getCol();
+        Cell[][] cells = game.getBoard().getCells();
+        int colCount = cells[0].length;
 
         // 将棋盤セルの背景色を変更する
+//        List<Node> nodeList = boardGridPane.getChildren();
+//        ShougiCell[][] cells = board.getCells();
+//        int player1Score = 0;
+//        int player2Score = 0;
+
         List<Node> nodeList = boardGridPane.getChildren();
-        ShougiCell[][] cells = board.getCells();
         int player1Score = 0;
         int player2Score = 0;
 
         // 駒と領土の描画
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                ShougiCell cell = cells[i][j];
+                Cell cell = cells[i][j];
                 int index = calcArrayIndex(i + 1, j + 1, colCount);
-                Node node = nodeList.get(index);
-                Player player = cell.getPlayer();
 
-                if (cell instanceof Attack) {
-                    if (player instanceof Player1) {
+                jp.co.afis.model.player.Player player = game.getPlayers().getCurrentPlayer();
+                CellStatus status = cell.getStatus().getPlayer1();
+                Node node = nodeList.get(index);
+
+                if (status == CellStatus.Fu) {
+                    if (player instanceof jp.co.afis.model.player.Player1) {
                         player1Score++;
                         node.setStyle("-fx-background-color: #1e90ff;");
-                    } else if (player instanceof Player2) {
+                    } else if (player instanceof jp.co.afis.model.player.Player2) {
                         player2Score++;
                         node.setStyle("-fx-background-color: #cd5c5c;");
                     }
-                } else if (cell instanceof Ryodo) {
-                    if (player instanceof Player1) {
+                } else if (status == CellStatus.Ryodo) {
+                    if (player instanceof jp.co.afis.model.player.Player1) {
                         player1Score++;
                         node.setStyle("-fx-background-color: #87ceeb;");
-                    } else if (player instanceof Player2) {
+                    } else if (player instanceof jp.co.afis.model.player.Player2) {
                         player2Score++;
                         node.setStyle("-fx-background-color: #f08080;");
                     }
-                } else if (cell instanceof Jinchi) {
+                } else if (status == CellStatus.Ryochi) {
+                } else if (status == CellStatus.Jinchi) {
                     node.setStyle("-fx-background-color: #a9a9a9;");
                 } else {
                     node.setStyle("-fx-background-color: white;");
                 }
 
-                if (!(cell instanceof Attack || cell instanceof Ryodo)) {
-                    int cellFlag = cell.getClickableBitFlag();
-                    if (0 < cellFlag) {
-                        Player nextPlayer = playerTurnList.get(0);
-                        int playerFlag = nextPlayer.getPlayerBitFlag();
-                        if ((cellFlag & playerFlag) == playerFlag) {
-                            node.setStyle("-fx-background-color: #f0e68c;");
-                        }
-                    }
-                }
+
+//                if (!(cell instanceof Attack || cell instanceof Ryodo)) {
+//                    int cellFlag = cell.getClickableBitFlag();
+//                    if (0 < cellFlag) {
+//                        Player nextPlayer = playerTurnList.get(0);
+//                        int playerFlag = nextPlayer.getPlayerBitFlag();
+//                        if ((cellFlag & playerFlag) == playerFlag) {
+//                            node.setStyle("-fx-background-color: #f0e68c;");
+//                        }
+//                    }
+//                }
             }
         }
 
-        // 残りの将棋駒の数表示を更新する
-        for (Player p : playerTurnList) {
-            if (p instanceof Player1) {
-                fuLabel.setText("" + p.getFuCount());
-                kinLabel.setText("" + p.getKinCount());
-                ginLabel.setText("" + p.getGinCount());
-                keimaLabel.setText("" + p.getKeimaCount());
-                kakuLabel.setText("" + p.getKakuCount());
-                hishaLabel.setText("" + p.getHishaCount());
-                kyoshaLabel.setText("" + p.getKyoshaCount());
-                ouLabel.setText("" + p.getOuCount());
-            } else if (p instanceof Player2) {
-                fuLabel2.setText("" + p.getFuCount());
-                kinLabel2.setText("" + p.getKinCount());
-                ginLabel2.setText("" + p.getGinCount());
-                keimaLabel2.setText("" + p.getKeimaCount());
-                kakuLabel2.setText("" + p.getKakuCount());
-                hishaLabel2.setText("" + p.getHishaCount());
-                kyoshaLabel2.setText("" + p.getKyoshaCount());
-                ouLabel2.setText("" + p.getOuCount());
-            }
-        }
+        fuLabel.setText("" + game.getPlayers().getPlayer1().getFuCount());
+        kinLabel.setText("" + game.getPlayers().getPlayer1().getKinCount());
+        ginLabel.setText("" + game.getPlayers().getPlayer1().getGinCount());
+        keimaLabel.setText("" + game.getPlayers().getPlayer1().getKeimaCount());
+        kyoshaLabel.setText("" + game.getPlayers().getPlayer1().getKyoshaCount());
+        hishaLabel.setText("" + game.getPlayers().getPlayer1().getHishaCount());
+        kakuLabel.setText("" + game.getPlayers().getPlayer1().getKakuCount());
+        ouLabel.setText("" + game.getPlayers().getPlayer1().getOuCount());
+
+        fuLabel2.setText("" + game.getPlayers().getPlayer2().getFuCount());
+        kinLabel2.setText("" + game.getPlayers().getPlayer2().getKinCount());
+        ginLabel2.setText("" + game.getPlayers().getPlayer2().getGinCount());
+        keimaLabel2.setText("" + game.getPlayers().getPlayer2().getKeimaCount());
+        kyoshaLabel2.setText("" + game.getPlayers().getPlayer2().getKyoshaCount());
+        hishaLabel2.setText("" + game.getPlayers().getPlayer2().getHishaCount());
+        kakuLabel2.setText("" + game.getPlayers().getPlayer2().getKakuCount());
+        ouLabel2.setText("" + game.getPlayers().getPlayer2().getOuCount());
 
         // 得点を更新する。
         player1ScoreLabel.setText("" + player1Score);
         player2ScoreLabel.setText("" + player2Score);
 
         // 勝敗の判定
-        int rowLen = board.getCells().length;
-        int colLen = board.getCells()[0].length;
-        int totalCellCount = rowLen * colLen;
-        int totalPlayerScore = player1Score + player2Score;
-        if (totalCellCount <= totalPlayerScore) {
-            String winner = player1Score < player2Score ? "後手" : "先手";
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("ゲーム終了！");
-            final String CR = System.lineSeparator();
-            String text =
-                    "先手の得点 : " + player1Score + CR
-                    + "後手の得点 : " + player2Score + CR + CR
-                    + "勝者は " + winner + " です！"
-                    ;
-            alert.setContentText(text);
-            alert.showAndWait();
-        }
+//        int rowLen = board.getCells().length;
+//        int colLen = board.getCells()[0].length;
+//        int totalCellCount = rowLen * colLen;
+//        int totalPlayerScore = player1Score + player2Score;
+//        if (totalCellCount <= totalPlayerScore) {
+//            String winner = player1Score < player2Score ? "後手" : "先手";
+//
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setHeaderText("ゲーム終了！");
+//            final String CR = System.lineSeparator();
+//            String text =
+//                    "先手の得点 : " + player1Score + CR
+//                    + "後手の得点 : " + player2Score + CR + CR
+//                    + "勝者は " + winner + " です！"
+//                    ;
+//            alert.setContentText(text);
+//            alert.showAndWait();
+//        }
     }
 
     private int calcArrayIndex(int row, int col, int colMax) {

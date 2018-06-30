@@ -25,6 +25,8 @@ enum class AppliableStatus {
     RYODO_EXISTS,
     /** そもそも自分の領域ではない */
     NOT_OWN_AREA,
+    /** 配列外エラー */
+    OUT_OF_RANGE,
 }
 
 /**
@@ -37,6 +39,10 @@ enum class AppliableStatus {
 internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player) : AppliableStatus {
     val row = pos.row
     val col = pos.col
+
+    if (!pos.isWithinBoardRange(board.cells.size, board.cells[0].size))
+        return AppliableStatus.OUT_OF_RANGE
+
     val statusPlayer1 = board.cells[row][col].status.player1
     val statusPlayer2 = board.cells[row][col].status.player2
 
@@ -80,21 +86,24 @@ internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player) :
 }
 
 class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
+    constructor(board: Board) : this(players = Players(), board = board)
+
     /**
      * click は指定の位置のセルをクリックする。
      * クリックを正常に完了できた場合は、ターンが切り替わり、
      * 次にクリックしたときは相手プレイヤーとしてクリックすることになる。
      * @param pos クリック位置
      */
-    fun click(pos: Position) {
+    fun click(pos: Position): AppliableStatus {
         val appliable = calcAppliable(board, pos, players.currentPlayer)
-        when (appliable) {
+        return when (appliable) {
             AppliableStatus.OK -> {
                 players.attack(board, pos)
                 players.switchCurrentPlayer()
+                appliable
             }
             else -> {
-                println("NG") // TODO:
+                appliable
             }
         }
     }
@@ -133,5 +142,9 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
                 }
             }
         }
+    }
+
+    fun calcPlayer1Score() :Int {
+        return 0
     }
 }

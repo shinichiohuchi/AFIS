@@ -28,6 +28,30 @@ internal class GameTest {
                 CellStatus.Ou
         )) {
             assertAll(
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, -1), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 0), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 65535), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, -1), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, 65535), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, -1), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 0), Player1()))
+                    },
+                    Executable {
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 65535), Player1()))
+                    },
                     // Pattern1 ~ 10
                     Executable {
                         val board = Board(9, 9)

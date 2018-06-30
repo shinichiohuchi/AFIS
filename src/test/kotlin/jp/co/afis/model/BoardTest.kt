@@ -1,16 +1,14 @@
 package jp.co.afis.model
 
+import jp.co.afis.bean.Position
+import jp.co.afis.model.cell.KomaType
+import jp.co.afis.model.player.Player1
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.function.Executable
 
 internal class BoardTest {
-
-    @Test
-    fun put() {
-    }
-
     @Test
     fun createBoardString() {
         assertAll(
@@ -45,6 +43,67 @@ internal class BoardTest {
             |J|J|J|J|""".trimIndent()
                     val actual = Board(4, 4).createBoardString()
                     assertEquals(expected, actual)
+                }
+        )
+    }
+
+    @Test
+    fun testCalcPlayerScore() {
+        assertAll(
+                Executable {
+                    val board = Board(9, 9)
+                    assertEquals(0, calcPlayerScore({ cell -> cell.status.player1 }, board.cells))
+                },
+                Executable {
+                    val game = Game()
+                    game.click(Position(6, 2))
+                    assertEquals(2, calcPlayerScore({ cell -> cell.status.player1 }, game.board.cells))
+                },
+                Executable {
+                    val game = Game()
+                    game.players.switchAttackStrategy(KomaType.KYOSHA)
+                    game.click(Position(8, 2))
+                    game.players.switchAttackStrategy(KomaType.KYOSHA)
+                    game.click(Position(0, 2))
+                    assertAll(
+                            Executable { assertEquals(1, calcPlayerScore({ cell -> cell.status.player1 }, game.board.cells)) },
+                            Executable { assertEquals(8, calcPlayerScore({ cell -> cell.status.player2 }, game.board.cells)) }
+                    )
+                },
+                Executable {
+                    val board = Board(9, 9)
+                    assertEquals(0, calcPlayerScore({ cell -> cell.status.player2 }, board.cells))
+                },
+                Executable {
+                    val game = Game()
+                    game.click(Position(6, 2))
+                    game.click(Position(2, 2))
+                    assertEquals(0, calcPlayerScore({ cell -> cell.status.player2 }, game.board.cells))
+                }
+        )
+    }
+
+    @Test
+    fun testCalcPlayer1Score() {
+        assertAll(
+                Executable { assertEquals(0, Board(9, 9).calcPlayer1Score()) },
+                Executable {
+                    val game = Game()
+                    game.click(Position(6, 2))
+                    assertEquals(2, game.board.calcPlayer1Score())
+                }
+        )
+    }
+
+    @Test
+    fun testCalcPlayer2Score() {
+        assertAll(
+                Executable { assertEquals(0, Board(9, 9).calcPlayer2Score()) },
+                Executable {
+                    val game = Game()
+                    game.click(Position(6, 2))
+                    game.click(Position(2, 2))
+                    assertEquals(2, game.board.calcPlayer2Score())
                 }
         )
     }
