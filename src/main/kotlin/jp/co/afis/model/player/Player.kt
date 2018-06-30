@@ -180,6 +180,7 @@ class Player1(name: String? = null
             Position(pos.row - 1, pos.col).let {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Fu)
@@ -197,6 +198,7 @@ class Player1(name: String? = null
             ).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Kin)
@@ -215,6 +217,7 @@ class Player1(name: String? = null
             ).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Gin)
@@ -230,6 +233,7 @@ class Player1(name: String? = null
                 val p = Position(it, pos.col)
                 if (p.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(p, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(p, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Kyosha)
@@ -244,6 +248,7 @@ class Player1(name: String? = null
             Position(pos.row - 2, pos.col - 1).let {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             Position(pos.row - 2, pos.col + 1).let {
@@ -264,6 +269,7 @@ class Player1(name: String? = null
             poses.forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Hisha)
@@ -279,6 +285,7 @@ class Player1(name: String? = null
             poses.forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Kaku)
@@ -293,6 +300,7 @@ class Player1(name: String? = null
             calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer1CellStatus(pos, CellStatus.Ou)
@@ -357,6 +365,7 @@ class Player2(
             Position(pos.row + 1, pos.col).let {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Fu)
@@ -374,6 +383,7 @@ class Player2(
             ).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Kin)
@@ -392,6 +402,7 @@ class Player2(
             ).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Gin)
@@ -407,6 +418,7 @@ class Player2(
                 val p = Position(it, pos.col)
                 if (p.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(p, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(p, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Kyosha)
@@ -422,6 +434,7 @@ class Player2(
             Position(pos.row + 2, pos.col - 1).let {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             Position(pos.row + 2, pos.col + 1).let {
@@ -442,6 +455,7 @@ class Player2(
             poses.forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Hisha)
@@ -457,6 +471,7 @@ class Player2(
             poses.forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Kaku)
@@ -471,6 +486,7 @@ class Player2(
             calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
                 if (it.isWithinBoardRange(rowMax, colMax)) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
+                    board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             board.setPlayer2CellStatus(pos, CellStatus.Ou)

@@ -334,9 +334,9 @@ internal class Player1Test {
 
         // ここからPlayer2
 
-        assertEquals(CellStatus.Jinchi, board.cells[0][3].status.player2)
-        assertEquals(CellStatus.Jinchi, board.cells[1][3].status.player2)
-        assertEquals(CellStatus.Jinchi, board.cells[2][3].status.player2)
+        assertEquals(CellStatus.Empty, board.cells[0][3].status.player2)
+        assertEquals(CellStatus.Empty, board.cells[1][3].status.player2)
+        assertEquals(CellStatus.Empty, board.cells[2][3].status.player2)
         assertEquals(CellStatus.Empty, board.cells[3][3].status.player2)
         assertEquals(CellStatus.Empty, board.cells[4][3].status.player2)
         assertEquals(CellStatus.Empty, board.cells[5][3].status.player2)
@@ -375,7 +375,7 @@ internal class Player1Test {
         assertEquals(listOf(
                 Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo, // 行方向
                 Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, // 列方向
-                Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty, // 行方向
+                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, // 行方向
                 Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty // 列方向
         ), listOf(
                 f(board, 0, 3), f(board, 1, 3), f(board, 2, 3), f(board, 3, 3), f(board, 4, 3), f(board, 5, 3), f(board, 6, 3), f(board, 7, 3), f(board, 8, 3),
@@ -407,7 +407,7 @@ internal class Player1Test {
         assertEquals(listOf(
                 Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
                 Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
-                Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
+                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                 Empty, Empty, Empty, Empty, Empty, Empty
         ), listOf(
                 f(board, 1, 8), f(board, 2, 7), f(board, 3, 6), f(board, 4, 5), f(board, 5, 4), f(board, 6, 3), f(board, 7, 2), f(board, 8, 1),
@@ -605,9 +605,9 @@ internal class Player2Test {
                 Empty,
                 Empty,
                 Empty,
-                Jinchi,
-                Jinchi,
-                Jinchi,
+                Empty,
+                Empty,
+                Empty,
 
                 Empty,
                 Empty,
@@ -700,7 +700,7 @@ internal class Player2Test {
         p1.attackWithHisha(board, pos)
 
         assertEquals(listOf(
-                Empty, Empty, Empty, Empty, Empty, Empty, Jinchi, Jinchi, Jinchi,
+                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                 Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                 Ryodo, Ryodo, Hisha, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo,
                 Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Hisha, Ryodo, Ryodo
@@ -733,7 +733,7 @@ internal class Player2Test {
 
         assertEquals(listOf(
                 Empty, Empty, Empty, Empty, Empty,
-                Jinchi, Jinchi, Jinchi, Empty, Empty, Empty, Empty, Empty, Empty,
+                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
 
                 Ryodo, Ryodo, Kaku, Ryodo, Ryodo,
                 Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Ryodo, Kaku, Ryodo, Ryodo

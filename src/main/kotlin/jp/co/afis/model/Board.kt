@@ -4,7 +4,6 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.Cell
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.createInitCells
-import jp.co.afis.model.player.Player
 
 internal fun calcPlayerScore(player: (Cell) -> CellStatus, cells: Array<Array<Cell>>): Int {
     var score = 0
