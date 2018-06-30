@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public static final String TITLE = "AFIS -A Fantastic Invertible Shougi- ver0.6.0";
+    public static final String TITLE = "AFIS -A Fantastic Invertible Shougi- ver0.7.0";
 
     @Override
     public void start(Stage primaryStage) throws Exception{

@@ -8,15 +8,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import jp.co.afis.bean.Position;
 import jp.co.afis.control.MyLabel;
-import jp.co.afis.model.AppliableStatus;
-import jp.co.afis.model.Board;
-import jp.co.afis.model.CellDispStatus;
-import jp.co.afis.model.Game;
+import jp.co.afis.model.*;
 import jp.co.afis.model.cell.Cell;
 import jp.co.afis.model.cell.KomaType;
 import jp.co.afis.model.player.Winner;
 import jp.co.afis.util.AlertUtil;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -245,7 +243,13 @@ public class MainController {
     }
 
     private void createBoard(int row, int col) {
-        game = new Game(new Board(row, col));
+        String propPath = "./config/komas.properties";
+        boolean exist = new File(propPath).exists();
+        if (exist) {
+            game = GameKt.createGameWithConfig(propPath, row, col);
+        } else {
+            game = new Game(new Board(row, col));
+        }
 
         final double W = 50.0;
         final double H = 50.0;
@@ -308,12 +312,6 @@ public class MainController {
 //        int colCount = board.getCol();
         Cell[][] cells = game.getBoard().getCells();
         int colCount = cells[0].length;
-
-        // 将棋盤セルの背景色を変更する
-//        List<Node> nodeList = boardGridPane.getChildren();
-//        ShougiCell[][] cells = board.getCells();
-//        int player1Score = 0;
-//        int player2Score = 0;
 
         List<Node> nodeList = boardGridPane.getChildren();
 

@@ -4,6 +4,8 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.KomaType
 import jp.co.afis.model.player.*
+import java.io.FileInputStream
+import java.util.*
 
 fun main(args: Array<String>) {
     val game = Game()
@@ -87,6 +89,44 @@ internal fun calcAppliable(board: Board, pos: Position, players: Players, curren
     if (statusPlayer2 == CellStatus.Empty) return AppliableStatus.NOT_OWN_AREA
 
     return AppliableStatus.OK
+}
+
+internal fun createGameWithConfig(configFile: String, row: Int, col:Int): Game {
+    val prop = Properties()
+    prop.load(FileInputStream(configFile))
+
+    val fu = prop.getProperty("fu").toInt()
+    val kin = prop.getProperty("kin").toInt()
+    val gin = prop.getProperty("gin").toInt()
+    val keima = prop.getProperty("keima").toInt()
+    val kyosha = prop.getProperty("kyosha").toInt()
+    val hisha = prop.getProperty("hisha").toInt()
+    val kaku = prop.getProperty("kaku").toInt()
+    val ou = prop.getProperty("ou").toInt()
+
+    val game = Game(players = Players(
+            player1 = Player1(
+                    fuCount = fu,
+                    kinCount = kin,
+                    ginCount = gin,
+                    keimaCount = keima,
+                    kyoshaCount = kyosha,
+                    hishaCount = hisha,
+                    kakuCount = kaku,
+                    ouCount = ou
+            ),
+            player2 = Player2(
+                    fuCount = fu,
+                    kinCount = kin,
+                    ginCount = gin,
+                    keimaCount = keima,
+                    kyoshaCount = kyosha,
+                    hishaCount = hisha,
+                    kakuCount = kaku,
+                    ouCount = ou
+            )
+    ), board = Board(row, col))
+    return game
 }
 
 class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
