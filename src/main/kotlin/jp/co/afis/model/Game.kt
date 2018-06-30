@@ -129,7 +129,17 @@ internal fun createGameWithConfig(configFile: String, row: Int, col:Int): Game {
     return game
 }
 
-class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
+/**
+ * Game はゲームロジッククラス。
+ *
+ * @constructor
+ * ゲームを生成する。
+ *
+ * @param players プレイヤー1と2を保持する。
+ * @param board 将棋盤
+ * @param onCPU CPUによる自動攻撃を有効化する
+ */
+class Game(val players: Players = Players(), val board: Board = Board(9, 9), val onCPU: Boolean = false) {
     constructor(board: Board) : this(players = Players(), board = board)
 
     /**
@@ -152,6 +162,16 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
                 appliable
             }
         }
+    }
+
+    /**
+     * eventWithCPU はCPUによる自動操作です。
+     * CPUは配置可能ないずれかのセルに駒の配置を試みます。
+     * 配置可能なますが存在しない場合はスキップします。
+     */
+    fun eventWithCPU() {
+        val appliableCount = board.getAppliablePositionsOfPlayer2().size
+        TODO("test")
     }
 
     /**

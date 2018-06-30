@@ -235,5 +235,37 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
         }
     }
 
+    /**
+     * getAppliablePositionsOfPlayer1 は配置可能なセルのリストを返す。
+     */
+    fun getAppliablePositionsOfPlayer1(): List<Position> {
+        var list = mutableListOf<Position>()
+        cells.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colindex, cell ->
+                if (cell.status.player1 == CellStatus.Ryochi || cell.status.player1 == CellStatus.Jinchi) {
+                    val pos = Position(rowIndex, colindex)
+                    list.add(pos)
+                }
+            }
+        }
+        return list
+    }
+
+    /**
+     * getAppliablePositionsOfPlayer2 は配置可能なセルのリストを返す。
+     */
+    fun getAppliablePositionsOfPlayer2(): List<Position> {
+        var list = mutableListOf<Position>()
+        cells.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colindex, cell ->
+                if (cell.status.player2 == CellStatus.Ryochi || cell.status.player2 == CellStatus.Jinchi) {
+                    val pos = Position(rowIndex, colindex)
+                    list.add(pos)
+                }
+            }
+        }
+        return list
+    }
+
 }
 

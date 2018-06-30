@@ -6,11 +6,13 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import jp.co.afis.bean.Position;
 import jp.co.afis.control.MyLabel;
 import jp.co.afis.model.*;
 import jp.co.afis.model.cell.Cell;
 import jp.co.afis.model.cell.KomaType;
+import jp.co.afis.model.player.Player1;
 import jp.co.afis.model.player.Winner;
 import jp.co.afis.util.AlertUtil;
 
@@ -302,14 +304,12 @@ public class MainController {
      * セルの状態を判定して背景色を変更する。
      */
     void updateDisplay() {
-        //String playerName = playerTurnList.getFirst() instanceof Player1 ? "先手" : "後手";
+        String playerName = game.getPlayers().getCurrentPlayer() instanceof Player1 ? "先手" : "後手";
 
         // ターン表示
-//        Stage stage = (Stage) boardGridPane.getScene().getWindow();
-//        stage.setTitle(Main.TITLE + " : " + playerName);
+        Stage stage = (Stage) boardGridPane.getScene().getWindow();
+        stage.setTitle(Main.TITLE + " : " + playerName);
 
-
-//        int colCount = board.getCol();
         Cell[][] cells = game.getBoard().getCells();
         int colCount = cells[0].length;
 
