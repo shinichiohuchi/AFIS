@@ -120,10 +120,25 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
         return calcPlayerScore({ cell -> cell.status.player2 }, cells)
     }
 
+    fun clearRyochi() {
+        cells.forEach {
+            it.forEach {
+                if (it.status.player1 == CellStatus.Ryochi) {
+                    it.status.player1 = CellStatus.Empty
+                }
+                if (it.status.player2 == CellStatus.Ryochi) {
+                    it.status.player2 = CellStatus.Empty
+                }
+            }
+        }
+    }
+
     /**
      * 領地をセットします。
      */
     fun updateRyochi() {
+        clearRyochi()
+
         val rowMax = cells.size
         val colMax = cells[0].size
         calcRyochiCells({ cell -> cell.status.player1 }, cells).forEach {
