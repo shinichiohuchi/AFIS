@@ -2,8 +2,37 @@ package jp.co.afis.model.player
 
 import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
+import jp.co.afis.model.cell.Cell
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.KomaType
+
+internal fun isKoma(cell: Cell): Boolean {
+    return isPlayer1Koma(cell) || isPlayer2Koma(cell)
+}
+
+internal fun isPlayer1Koma(cell: Cell): Boolean {
+    val status = cell.status.player1
+    return status == CellStatus.Fu ||
+            status == CellStatus.Kin ||
+            status == CellStatus.Gin ||
+            status == CellStatus.Kyosha ||
+            status == CellStatus.Keima ||
+            status == CellStatus.Hisha ||
+            status == CellStatus.Kaku ||
+            status == CellStatus.Ou
+}
+
+internal fun isPlayer2Koma(cell: Cell): Boolean {
+    val status = cell.status.player2
+    return status == CellStatus.Fu ||
+            status == CellStatus.Kin ||
+            status == CellStatus.Gin ||
+            status == CellStatus.Kyosha ||
+            status == CellStatus.Keima ||
+            status == CellStatus.Hisha ||
+            status == CellStatus.Kaku ||
+            status == CellStatus.Ou
+}
 
 /**
  * calcRyodo3x3 は起点位置から3x3マスの領土の位置リストを返却します。
@@ -192,7 +221,7 @@ class Player1(name: String? = null
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             Position(pos.row - 1, pos.col).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -210,7 +239,7 @@ class Player1(name: String? = null
                     { bp, tp -> bp.row + 1 == tp.row && bp.col - 1 == tp.col },
                     { bp, tp -> bp.row + 1 == tp.row && bp.col + 1 == tp.col })
             ).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -229,7 +258,7 @@ class Player1(name: String? = null
                     { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
                     { bp, tp -> bp.row + 1 == tp.row && bp.col == tp.col })
             ).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -245,7 +274,7 @@ class Player1(name: String? = null
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             (0..pos.row).forEach {
                 val p = Position(it, pos.col)
-                if (p.isWithinBoardRange(rowMax, colMax)) {
+                if (p.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(p))) {
                     board.setPlayer1CellStatus(p, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(p, CellStatus.Empty)
                 }
@@ -260,13 +289,13 @@ class Player1(name: String? = null
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             Position(pos.row - 2, pos.col - 1).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
             }
             Position(pos.row - 2, pos.col + 1).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                 }
             }
@@ -281,7 +310,7 @@ class Player1(name: String? = null
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
             poses.forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -297,7 +326,7 @@ class Player1(name: String? = null
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
             poses.forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -312,7 +341,7 @@ class Player1(name: String? = null
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer1CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer2CellStatus(it, CellStatus.Empty)
                 }
@@ -377,7 +406,7 @@ class Player2(
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             Position(pos.row + 1, pos.col).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
@@ -395,7 +424,7 @@ class Player2(
                     { bp, tp -> bp.row - 1 == tp.row && bp.col - 1 == tp.col },
                     { bp, tp -> bp.row - 1 == tp.row && bp.col + 1 == tp.col })
             ).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
@@ -414,7 +443,7 @@ class Player2(
                     { bp, tp -> bp.row == tp.row && bp.col + 1 == tp.col },
                     { bp, tp -> bp.row - 1 == tp.row && bp.col == tp.col })
             ).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
@@ -430,7 +459,7 @@ class Player2(
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             (pos.row until board.cells.size).forEach {
                 val p = Position(it, pos.col)
-                if (p.isWithinBoardRange(rowMax, colMax)) {
+                if (p.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(p))) {
                     board.setPlayer2CellStatus(p, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(p, CellStatus.Empty)
                 }
@@ -446,13 +475,13 @@ class Player2(
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             Position(pos.row + 2, pos.col - 1).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
             }
             Position(pos.row + 2, pos.col + 1).let {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                 }
             }
@@ -467,7 +496,7 @@ class Player2(
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             val poses = calcRyodoOfHisha(pos, board.cells.size, board.cells[0].size)
             poses.forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
@@ -483,7 +512,7 @@ class Player2(
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             val poses = calcRyodoOfKaku(pos, board.cells.size, board.cells[0].size)
             poses.forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
@@ -498,7 +527,7 @@ class Player2(
 
         if (pos.isWithinBoardRange(rowMax, colMax)) {
             calcRyodo3x3(pos, listOf({ _, _ -> false })).forEach {
-                if (it.isWithinBoardRange(rowMax, colMax)) {
+                if (it.isWithinBoardRange(rowMax, colMax) && !isKoma(board.getCell(it))) {
                     board.setPlayer2CellStatus(it, CellStatus.Ryodo)
                     board.setPlayer1CellStatus(it, CellStatus.Empty)
                 }
