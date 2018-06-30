@@ -124,25 +124,65 @@ public class MainController {
     private void initialize() {
         komaToggleGroup.selectedToggleProperty().addListener(e -> {
             RadioButton radio = (RadioButton) komaToggleGroup.getSelectedToggle();
-            String text = radio.getText();
+            String text = radio.getText().substring(0, 1);
 
             switch (text) {
                 case "歩":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.FU);
+                    break;
                 case "金":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KIN);
+                    break;
                 case "銀":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.GIN);
+                    break;
                 case "桂":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KEIMA);
+                    break;
                 case "角":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KAKU);
+                    break;
                 case "飛":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.HISHA);
+                    break;
                 case "香":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KYOSHA);
+                    break;
                 case "王":
                     game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.OU);
+                    break;
+            }
+        });
+
+        komaToggleGroup2.selectedToggleProperty().addListener(e -> {
+            RadioButton radio = (RadioButton) komaToggleGroup2.getSelectedToggle();
+            String text = radio.getText().substring(0, 1);
+
+            switch (text) {
+                case "歩":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.FU);
+                    break;
+                case "金":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KIN);
+                    break;
+                case "銀":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.GIN);
+                    break;
+                case "桂":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KEIMA);
+                    break;
+                case "角":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KAKU);
+                    break;
+                case "飛":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.HISHA);
+                    break;
+                case "香":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KYOSHA);
+                    break;
+                case "王":
+                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.OU);
+                    break;
             }
         });
     }
@@ -214,7 +254,8 @@ public class MainController {
 //
 //                Player p = playerTurnList.poll();
 //                playerTurnList.add(p);
-//                updateDisplay();
+
+                updateDisplay();
             }
         });
     }
@@ -242,6 +283,10 @@ public class MainController {
                     AppliableStatus result = game.click(new Position(r, c));
                     switch (result) {
                         case OK:
+                            Cell cell = game.getBoard().getCell(new Position(r, c));
+                            String text = game.getBoard().getCellText(cell);
+                            label.setText(text);
+                            updateDisplay();
                             break;
                         case KOMA_EXISTS:
                             AlertUtil.showAlert("駒の上には配置できません。");
@@ -253,11 +298,6 @@ public class MainController {
                             AlertUtil.showAlert("駒または領土に隣接しないマスに配置できません");
                             break;
                     }
-
-                    Cell cell = game.getBoard().getCell(new Position(r, c));
-                    String text = game.getBoard().getCellText(cell);
-                    label.setText(text);
-                    updateDisplay();
                 });
                 boardGridPane.add(label, j, i);
             }
