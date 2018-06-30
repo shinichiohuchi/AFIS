@@ -128,28 +128,28 @@ public class MainController {
 
             switch (text) {
                 case "歩":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.FU);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.FU);
                     break;
                 case "金":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KIN);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.KIN);
                     break;
                 case "銀":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.GIN);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.GIN);
                     break;
                 case "桂":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KEIMA);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.KEIMA);
                     break;
                 case "角":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KAKU);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.KAKU);
                     break;
                 case "飛":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.HISHA);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.HISHA);
                     break;
                 case "香":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KYOSHA);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.KYOSHA);
                     break;
                 case "王":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.OU);
+                    game.getPlayers().getPlayer1().setCurrentAttackType(KomaType.OU);
                     break;
             }
         });
@@ -160,28 +160,28 @@ public class MainController {
 
             switch (text) {
                 case "歩":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.FU);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.FU);
                     break;
                 case "金":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KIN);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.KIN);
                     break;
                 case "銀":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.GIN);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.GIN);
                     break;
                 case "桂":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KEIMA);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.KEIMA);
                     break;
                 case "角":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KAKU);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.KAKU);
                     break;
                 case "飛":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.HISHA);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.HISHA);
                     break;
                 case "香":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.KYOSHA);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.KYOSHA);
                     break;
                 case "王":
-                    game.getPlayers().getCurrentPlayer().setCurrentAttackType(KomaType.OU);
+                    game.getPlayers().getPlayer2().setCurrentAttackType(KomaType.OU);
                     break;
             }
         });
@@ -248,13 +248,6 @@ public class MainController {
         Optional<ButtonType> opt = alert.showAndWait();
         opt.ifPresent(b -> {
             if (b == ButtonType.YES) {
-//                if (playerTurnList == null || playerTurnList.size() == 0) {
-//                    return;
-//                }
-//
-//                Player p = playerTurnList.poll();
-//                playerTurnList.add(p);
-
                 updateDisplay();
             }
         });
