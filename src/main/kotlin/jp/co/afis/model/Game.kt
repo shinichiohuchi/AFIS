@@ -2,10 +2,16 @@ package jp.co.afis.model
 
 import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.CellStatus
+import jp.co.afis.model.cell.KomaType
 import jp.co.afis.model.player.Player
 import jp.co.afis.model.player.Player1
 import jp.co.afis.model.player.Player2
 import jp.co.afis.model.player.Players
+
+fun main(args: Array<String>) {
+    val game = Game()
+    game.playWithCUI()
+}
 
 /**
  * AppliableStatus はセルに駒を配置可能かの状態
@@ -85,9 +91,10 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
         when (appliable) {
             AppliableStatus.OK -> {
                 players.attack(board, pos)
+                players.switchCurrentPlayer()
             }
             else -> {
-
+                println("NG") // TODO:
             }
         }
     }
@@ -98,5 +105,33 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
     fun print() {
         val boardString = board.createBoardString()
         println(boardString)
+    }
+
+    fun playWithCUI() {
+        while (true) {
+            println("Enter Position d,x,y or q > ")
+            readLine().let {
+                if (it != null) {
+                    if (it == "q") {
+                        System.exit(0)
+                    }
+                    val koma = it.split(",")[0].toInt()
+                    when (koma) {
+                        1 -> players.switchAttackStrategy(KomaType.FU)
+                        2 -> players.switchAttackStrategy(KomaType.KIN)
+                        3 -> players.switchAttackStrategy(KomaType.GIN)
+                        4 -> players.switchAttackStrategy(KomaType.KEIMA)
+                        5 -> players.switchAttackStrategy(KomaType.KYOSHA)
+                        6 -> players.switchAttackStrategy(KomaType.HISHA)
+                        7 -> players.switchAttackStrategy(KomaType.KAKU)
+                        8 -> players.switchAttackStrategy(KomaType.OU)
+                    }
+                    val x = it.split(",")[1].toInt()
+                    val y = it.split(",")[2].toInt()
+                    click(Position(x, y))
+                    print()
+                }
+            }
+        }
     }
 }

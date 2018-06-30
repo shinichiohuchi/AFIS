@@ -119,14 +119,38 @@ class Player1(name: String? = null
         , currentAttackType = currentAttackType) {
     override fun attack(board: Board, pos: Position) {
         when (currentAttackType) {
-            KomaType.FU -> attackWithFu(board, pos)
-            KomaType.KIN -> attackWithKin(board, pos)
-            KomaType.GIN -> attackWithGin(board, pos)
-            KomaType.KEIMA -> attackWithKeima(board, pos)
-            KomaType.KYOSHA -> attackWithKyosha(board, pos)
-            KomaType.HISHA -> attackWithHisha(board, pos)
-            KomaType.KAKU -> attackWithKaku(board, pos)
-            KomaType.OU -> attackWithOu(board, pos)
+            KomaType.FU -> {
+                attackWithFu(board, pos)
+                fuCount--
+            }
+            KomaType.KIN -> {
+                attackWithKin(board, pos)
+                kinCount--
+            }
+            KomaType.GIN -> {
+                attackWithGin(board, pos)
+                ginCount--
+            }
+            KomaType.KEIMA -> {
+                attackWithKeima(board, pos)
+                keimaCount--
+            }
+            KomaType.KYOSHA -> {
+                attackWithKyosha(board, pos)
+                kyoshaCount--
+            }
+            KomaType.HISHA -> {
+                attackWithHisha(board, pos)
+                hishaCount--
+            }
+            KomaType.KAKU -> {
+                attackWithKaku(board, pos)
+                kakuCount--
+            }
+            KomaType.OU -> {
+                attackWithOu(board, pos)
+                ouCount--
+            }
         }
     }
 
