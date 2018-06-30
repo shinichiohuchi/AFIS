@@ -33,60 +33,41 @@ internal class PlayersTest {
         ))
         assertAll(
                 // デフォルト駒数
-                Executable { assertEquals(9, ps.player1.fus.size) },
-                Executable { assertEquals(2, ps.player1.kins.size) },
-                Executable { assertEquals(2, ps.player1.gins.size) },
-                Executable { assertEquals(2, ps.player1.kyoshas.size) },
-                Executable { assertEquals(2, ps.player1.keimas.size) },
-                Executable { assertEquals(1, ps.player1.hishas.size) },
-                Executable { assertEquals(1, ps.player1.kakus.size) },
-                Executable { assertEquals(1, ps.player1.ous.size) },
+                Executable { assertEquals(9, ps.player1.fuCount) },
+                Executable { assertEquals(2, ps.player1.kinCount) },
+                Executable { assertEquals(2, ps.player1.ginCount ) },
+                Executable { assertEquals(2, ps.player1.kyoshaCount) },
+                Executable { assertEquals(2, ps.player1.keimaCount) },
+                Executable { assertEquals(1, ps.player1.hishaCount) },
+                Executable { assertEquals(1, ps.player1.kakuCount) },
+                Executable { assertEquals(1, ps.player1.ouCount) },
 
-                Executable { assertEquals(1, ps2.player1.fus.size) },
-                Executable { assertEquals(2, ps2.player1.kins.size) },
-                Executable { assertEquals(3, ps2.player1.gins.size) },
-                Executable { assertEquals(4, ps2.player1.kyoshas.size) },
-                Executable { assertEquals(5, ps2.player1.keimas.size) },
-                Executable { assertEquals(6, ps2.player1.hishas.size) },
-                Executable { assertEquals(7, ps2.player1.kakus.size) },
-                Executable { assertEquals(8, ps2.player1.ous.size) },
+                Executable { assertEquals(1, ps2.player1.fuCount) },
+                Executable { assertEquals(2, ps2.player1.kinCount) },
+                Executable { assertEquals(3, ps2.player1.ginCount) },
+                Executable { assertEquals(4, ps2.player1.kyoshaCount) },
+                Executable { assertEquals(5, ps2.player1.keimaCount) },
+                Executable { assertEquals(6, ps2.player1.hishaCount) },
+                Executable { assertEquals(7, ps2.player1.kakuCount) },
+                Executable { assertEquals(8, ps2.player1.ouCount) },
 
-                Executable { assertEquals(9, ps.player2.fus.size) },
-                Executable { assertEquals(2, ps.player2.kins.size) },
-                Executable { assertEquals(2, ps.player2.gins.size) },
-                Executable { assertEquals(2, ps.player2.kyoshas.size) },
-                Executable { assertEquals(2, ps.player2.keimas.size) },
-                Executable { assertEquals(1, ps.player2.hishas.size) },
-                Executable { assertEquals(1, ps.player2.kakus.size) },
-                Executable { assertEquals(1, ps.player2.ous.size) },
+                Executable { assertEquals(9, ps.player2.fuCount) },
+                Executable { assertEquals(2, ps.player2.kinCount) },
+                Executable { assertEquals(2, ps.player2.ginCount ) },
+                Executable { assertEquals(2, ps.player2.kyoshaCount) },
+                Executable { assertEquals(2, ps.player2.keimaCount) },
+                Executable { assertEquals(1, ps.player2.hishaCount) },
+                Executable { assertEquals(1, ps.player2.kakuCount) },
+                Executable { assertEquals(1, ps.player2.ouCount) },
 
-                Executable { assertEquals(21, ps2.player2.fus.size) },
-                Executable { assertEquals(22, ps2.player2.kins.size) },
-                Executable { assertEquals(23, ps2.player2.gins.size) },
-                Executable { assertEquals(24, ps2.player2.kyoshas.size) },
-                Executable { assertEquals(25, ps2.player2.keimas.size) },
-                Executable { assertEquals(26, ps2.player2.hishas.size) },
-                Executable { assertEquals(27, ps2.player2.kakus.size) },
-                Executable { assertEquals(28, ps2.player2.ous.size) },
-
-                // セットされている関数
-                Executable { assertEquals(ps.player1.fus.first().attack, ps.player1::attackWithFu) },
-                Executable { assertEquals(ps.player1.kins.first().attack, ps.player1::attackWithKin) },
-                Executable { assertEquals(ps.player1.gins.first().attack, ps.player1::attackWithGin) },
-                Executable { assertEquals(ps.player1.keimas.first().attack, ps.player1::attackWithKeima) },
-                Executable { assertEquals(ps.player1.kyoshas.first().attack, ps.player1::attackWithKyosha) },
-                Executable { assertEquals(ps.player1.hishas.first().attack, ps.player1::attackWithHisha) },
-                Executable { assertEquals(ps.player1.kakus.first().attack, ps.player1::attackWithKaku) },
-                Executable { assertEquals(ps.player1.ous.first().attack, ps.player1::attackWithOu) },
-
-                Executable { assertEquals(ps.player2.fus.first().attack, ps.player2::attackWithFu) },
-                Executable { assertEquals(ps.player2.kins.first().attack, ps.player2::attackWithKin) },
-                Executable { assertEquals(ps.player2.gins.first().attack, ps.player2::attackWithGin) },
-                Executable { assertEquals(ps.player2.keimas.first().attack, ps.player2::attackWithKeima) },
-                Executable { assertEquals(ps.player2.kyoshas.first().attack, ps.player2::attackWithKyosha) },
-                Executable { assertEquals(ps.player2.hishas.first().attack, ps.player2::attackWithHisha) },
-                Executable { assertEquals(ps.player2.kakus.first().attack, ps.player2::attackWithKaku) },
-                Executable { assertEquals(ps.player2.ous.first().attack, ps.player2::attackWithOu) }
+                Executable { assertEquals(21, ps2.player2.fuCount) },
+                Executable { assertEquals(22, ps2.player2.kinCount) },
+                Executable { assertEquals(23, ps2.player2.ginCount) },
+                Executable { assertEquals(24, ps2.player2.kyoshaCount) },
+                Executable { assertEquals(25, ps2.player2.keimaCount) },
+                Executable { assertEquals(26, ps2.player2.hishaCount) },
+                Executable { assertEquals(27, ps2.player2.kakuCount) },
+                Executable { assertEquals(28, ps2.player2.ouCount) }
         )
     }
 
@@ -134,9 +115,21 @@ internal class PlayersTest {
 
     @Test
     fun testHasEnoughCountOfKomas() {
-        val p = Players()
         assertAll(
-                Executable { assertEquals(true, p.hasEnoughCountOfKomas()) }
+                Executable { assertEquals(true, Players().hasEnoughCountOfKomas()) },
+                Executable {
+                    val p = Players()
+                    p.player1.fuCount = 0
+                    p.player2.fuCount = 1
+                    assertEquals(false, p.hasEnoughCountOfKomas())
+                },
+                Executable {
+                    val p = Players()
+                    p.switchCurrentPlayer()
+                    p.player1.fuCount = 0
+                    p.player2.fuCount = 1
+                    assertEquals(true, p.hasEnoughCountOfKomas())
+                }
         )
     }
 }

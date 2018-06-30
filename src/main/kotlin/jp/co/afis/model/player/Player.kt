@@ -3,7 +3,7 @@ package jp.co.afis.model.player
 import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 import jp.co.afis.model.cell.CellStatus
-import jp.co.afis.model.cell.Koma
+import jp.co.afis.model.cell.KomaType
 
 /**
  * calcRyodo3x3 は起点位置から3x3マスの領土の位置リストを返却します。
@@ -73,7 +73,18 @@ internal fun calcRyodoOfKaku(pos: Position, rowMax: Int, colMax: Int): List<Posi
     ).flatMap { it }
 }
 
-abstract class Player(name: String? = null, fuCount: Int) {
+abstract class Player(
+        name: String? = null
+        , var fuCount: Int = 9
+        , var kinCount: Int = 2
+        , var ginCount: Int = 2
+        , var keimaCount: Int = 2
+        , var kyoshaCount: Int = 2
+        , var hishaCount: Int = 1
+        , var kakuCount: Int = 1
+        , var ouCount: Int = 1
+        , var currentAttackType: KomaType = KomaType.FU) {
+    abstract fun attack(board: Board, pos: Position)
     abstract fun attackWithFu(board: Board, pos: Position)
     abstract fun attackWithKin(board: Board, pos: Position)
     abstract fun attackWithGin(board: Board, pos: Position)
@@ -82,6 +93,7 @@ abstract class Player(name: String? = null, fuCount: Int) {
     abstract fun attackWithHisha(board: Board, pos: Position)
     abstract fun attackWithKaku(board: Board, pos: Position)
     abstract fun attackWithOu(board: Board, pos: Position)
+    abstract fun getCountOfKomas(): Int
 }
 
 class Player1(name: String? = null
@@ -93,30 +105,43 @@ class Player1(name: String? = null
               , hishaCount: Int = 1
               , kakuCount: Int = 1
               , ouCount: Int = 1
-) : Player(name = name, fuCount = fuCount) {
-    /** 歩 */
-    var fus = Array(fuCount) { Koma("歩", ::attackWithFu)}.toMutableList()
+              , currentAttackType: KomaType = KomaType.FU
+) : Player(
+        name = name
+        , fuCount = fuCount
+        , kinCount = kinCount
+        , ginCount = ginCount
+        , keimaCount = keimaCount
+        , kyoshaCount = kyoshaCount
+        , hishaCount = hishaCount
+        , kakuCount = kakuCount
+        , ouCount = ouCount
+        , currentAttackType = currentAttackType) {
+    override fun attack(board: Board, pos: Position) {
+        when (currentAttackType) {
+            KomaType.FU -> attackWithFu(board, pos)
+            KomaType.KIN -> attackWithKin(board, pos)
+            KomaType.GIN -> attackWithGin(board, pos)
+            KomaType.KEIMA -> attackWithKeima(board, pos)
+            KomaType.KYOSHA -> attackWithKyosha(board, pos)
+            KomaType.HISHA -> attackWithHisha(board, pos)
+            KomaType.KAKU -> attackWithKaku(board, pos)
+            KomaType.OU -> attackWithOu(board, pos)
+        }
+    }
 
-    /** 金 */
-    var kins = Array(kinCount) { Koma("金", ::attackWithKin)}.toMutableList()
-
-    /** 銀 */
-    var gins = Array(ginCount) { Koma("銀", ::attackWithGin)}.toMutableList()
-
-    /** 香車 */
-    var kyoshas = Array(kyoshaCount) { Koma("香", ::attackWithKyosha)}.toMutableList()
-
-    /** 桂馬 */
-    var keimas = Array(keimaCount) { Koma("桂", ::attackWithKeima)}.toMutableList()
-
-    /** 飛車 */
-    var hishas = Array(hishaCount) { Koma("飛", ::attackWithHisha)}.toMutableList()
-
-    /** 角 */
-    var kakus = Array(kakuCount) { Koma("角", ::attackWithKaku)}.toMutableList()
-
-    /** 王 */
-    var ous = Array(ouCount) { Koma("王", ::attackWithOu)}.toMutableList()
+    override fun getCountOfKomas(): Int {
+        return when (currentAttackType) {
+            KomaType.FU -> fuCount
+            KomaType.KIN -> kinCount
+            KomaType.GIN -> ginCount
+            KomaType.KEIMA -> keimaCount
+            KomaType.KYOSHA -> kyoshaCount
+            KomaType.HISHA -> hishaCount
+            KomaType.KAKU -> kakuCount
+            KomaType.OU -> ouCount
+        }
+    }
 
     /**
      * attackWithFu は歩の攻撃範囲の領土を返す
@@ -262,30 +287,43 @@ class Player2(
         , hishaCount: Int = 1
         , kakuCount: Int = 1
         , ouCount: Int = 1
-) : Player(name = name, fuCount = fuCount) {
-    /** 歩 */
-    var fus = Array(fuCount) { Koma("歩", ::attackWithFu)}.toMutableList()
+        , currentAttackType: KomaType = KomaType.FU
+) : Player(
+        name = name
+        , fuCount = fuCount
+        , kinCount = kinCount
+        , ginCount = ginCount
+        , keimaCount = keimaCount
+        , kyoshaCount = kyoshaCount
+        , hishaCount = hishaCount
+        , kakuCount = kakuCount
+        , ouCount = ouCount
+        , currentAttackType = currentAttackType) {
+    override fun attack(board: Board, pos: Position) {
+        when (currentAttackType) {
+            KomaType.FU -> attackWithFu(board, pos)
+            KomaType.KIN -> attackWithKin(board, pos)
+            KomaType.GIN -> attackWithGin(board, pos)
+            KomaType.KEIMA -> attackWithKeima(board, pos)
+            KomaType.KYOSHA -> attackWithKyosha(board, pos)
+            KomaType.HISHA -> attackWithHisha(board, pos)
+            KomaType.KAKU -> attackWithKaku(board, pos)
+            KomaType.OU -> attackWithOu(board, pos)
+        }
+    }
 
-    /** 金 */
-    var kins = Array(kinCount) { Koma("金", ::attackWithKin)}.toMutableList()
-
-    /** 銀 */
-    var gins = Array(ginCount) { Koma("銀", ::attackWithGin)}.toMutableList()
-
-    /** 香車 */
-    var kyoshas = Array(kyoshaCount) { Koma("香", ::attackWithKyosha)}.toMutableList()
-
-    /** 桂馬 */
-    var keimas = Array(keimaCount) { Koma("桂", ::attackWithKeima)}.toMutableList()
-
-    /** 飛車 */
-    var hishas = Array(hishaCount) { Koma("飛", ::attackWithHisha)}.toMutableList()
-
-    /** 角 */
-    var kakus = Array(kakuCount) { Koma("角", ::attackWithKaku)}.toMutableList()
-
-    /** 王 */
-    var ous = Array(ouCount) { Koma("王", ::attackWithOu)}.toMutableList()
+    override fun getCountOfKomas(): Int {
+        return when (currentAttackType) {
+            KomaType.FU -> fuCount
+            KomaType.KIN -> kinCount
+            KomaType.GIN -> ginCount
+            KomaType.KEIMA -> keimaCount
+            KomaType.KYOSHA -> kyoshaCount
+            KomaType.HISHA -> hishaCount
+            KomaType.KAKU -> kakuCount
+            KomaType.OU -> ouCount
+        }
+    }
 
     override fun attackWithFu(board: Board, pos: Position) {
         val rowMax = board.cells.size

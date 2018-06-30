@@ -4,6 +4,7 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.CellStatus.*
+import jp.co.afis.model.cell.KomaType
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -125,28 +126,64 @@ internal class PlayerPackageFunctionTest {
 
 internal class Player1Test {
     @Test
+    fun testGetCountOfKomas() {
+        assertAll(
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.FU
+                    assertEquals(9, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.KIN
+                    assertEquals(2, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.GIN
+                    assertEquals(2, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.KEIMA
+                    assertEquals(2, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.KYOSHA
+                    assertEquals(2, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.HISHA
+                    assertEquals(1, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.KAKU
+                    assertEquals(1, player.getCountOfKomas())
+                },
+                Executable {
+                    val player = Player1()
+                    player.currentAttackType = KomaType.OU
+                    assertEquals(1, player.getCountOfKomas())
+                }
+        )
+    }
+
+    @Test
     fun testConstructor() {
         val player1 = Player1()
         assertAll(
                 // デフォルト駒数
-                Executable { assertEquals(9, player1.fus.size) },
-                Executable { assertEquals(2, player1.kins.size) },
-                Executable { assertEquals(2, player1.gins.size) },
-                Executable { assertEquals(2, player1.kyoshas.size) },
-                Executable { assertEquals(2, player1.keimas.size) },
-                Executable { assertEquals(1, player1.hishas.size) },
-                Executable { assertEquals(1, player1.kakus.size) },
-                Executable { assertEquals(1, player1.ous.size) },
-
-                // セットされている関数
-                Executable { assertEquals(player1.fus.first().attack, player1::attackWithFu) },
-                Executable { assertEquals(player1.kins.first().attack, player1::attackWithKin) },
-                Executable { assertEquals(player1.gins.first().attack, player1::attackWithGin) },
-                Executable { assertEquals(player1.keimas.first().attack, player1::attackWithKeima) },
-                Executable { assertEquals(player1.kyoshas.first().attack, player1::attackWithKyosha) },
-                Executable { assertEquals(player1.hishas.first().attack, player1::attackWithHisha) },
-                Executable { assertEquals(player1.kakus.first().attack, player1::attackWithKaku) },
-                Executable { assertEquals(player1.ous.first().attack, player1::attackWithOu) }
+                Executable { assertEquals(9, player1.fuCount) },
+                Executable { assertEquals(2, player1.kinCount) },
+                Executable { assertEquals(2, player1.ginCount ) },
+                Executable { assertEquals(2, player1.keimaCount) },
+                Executable { assertEquals(2, player1.kyoshaCount) },
+                Executable { assertEquals(1, player1.hishaCount) },
+                Executable { assertEquals(1, player1.kakuCount) },
+                Executable { assertEquals(1, player1.ouCount) }
         )
     }
 
@@ -427,24 +464,14 @@ internal class Player2Test {
         val player2 = Player2()
         assertAll(
                 // デフォルト駒数
-                Executable { assertEquals(9, player2.fus.size) },
-                Executable { assertEquals(2, player2.kins.size) },
-                Executable { assertEquals(2, player2.gins.size) },
-                Executable { assertEquals(2, player2.kyoshas.size) },
-                Executable { assertEquals(2, player2.keimas.size) },
-                Executable { assertEquals(1, player2.hishas.size) },
-                Executable { assertEquals(1, player2.kakus.size) },
-                Executable { assertEquals(1, player2.ous.size) },
-
-                // セットされている関数
-                Executable { assertEquals(player2.fus.first().attack, player2::attackWithFu) },
-                Executable { assertEquals(player2.kins.first().attack, player2::attackWithKin) },
-                Executable { assertEquals(player2.gins.first().attack, player2::attackWithGin) },
-                Executable { assertEquals(player2.keimas.first().attack, player2::attackWithKeima) },
-                Executable { assertEquals(player2.kyoshas.first().attack, player2::attackWithKyosha) },
-                Executable { assertEquals(player2.hishas.first().attack, player2::attackWithHisha) },
-                Executable { assertEquals(player2.kakus.first().attack, player2::attackWithKaku) },
-                Executable { assertEquals(player2.ous.first().attack, player2::attackWithOu) }
+                Executable { assertEquals(9, player2.fuCount) },
+                Executable { assertEquals(2, player2.kinCount) },
+                Executable { assertEquals(2, player2.ginCount) },
+                Executable { assertEquals(2, player2.keimaCount) },
+                Executable { assertEquals(2, player2.kyoshaCount) },
+                Executable { assertEquals(1, player2.hishaCount) },
+                Executable { assertEquals(1, player2.kakuCount) },
+                Executable { assertEquals(1, player2.ouCount) }
         )
     }
 

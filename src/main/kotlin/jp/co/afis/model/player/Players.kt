@@ -22,25 +22,6 @@ internal fun getSwitchedPlayer(target: Player, p1: Player1, p2: Player2): Player
 }
 
 /**
- * getSwitchedAttack は駒タイプに応じた攻撃駒を返します。
- * @param komaType 駒タイプ
- * @param player プレイヤー
- * @return 攻撃方法
- */
-internal fun getSwitchedAttack(komaType: KomaType, player: Player): (Board, Position) -> Unit {
-    return when (komaType) {
-        KomaType.FU -> player::attackWithFu
-        KomaType.KIN -> player::attackWithKin
-        KomaType.GIN -> player::attackWithGin
-        KomaType.KEIMA -> player::attackWithKeima
-        KomaType.KYOSHA -> player::attackWithKyosha
-        KomaType.HISHA -> player::attackWithHisha
-        KomaType.KAKU -> player::attackWithKaku
-        KomaType.OU -> player::attackWithOu
-    }
-}
-
-/**
  * Players は先手、後手プレイヤーを管理します。
  *
  * @constructor
@@ -54,14 +35,18 @@ class Players(
         val player1: Player1 = Player1()
         , val player2: Player2 = Player2()
         , var currentPlayer: Player = player1
-        , private var currentAttackStrategy: (Board, Position) -> Unit = currentPlayer::attackWithFu
 ) {
     fun attack(board: Board, pos: Position) {
-        currentAttackStrategy(board, pos)
+        currentPlayer.attack(board, pos)
     }
 
+    /**
+     * hasEnoughCountOfKomas は現在のプレイヤーの現在の駒の残数を判定し、十分な数が存在するかを返します。
+     * @return 十分か、否か
+     */
     fun hasEnoughCountOfKomas() : Boolean {
-        return true
+        val count = currentPlayer.getCountOfKomas()
+        return 0 < count
     }
 
     /**
@@ -76,7 +61,7 @@ class Players(
      * @param komaType 駒タイプ
      */
     fun switchAttackStrategy(komaType: KomaType) {
-        currentAttackStrategy = getSwitchedAttack(komaType, currentPlayer)
+        currentPlayer.currentAttackType = komaType
     }
 }
 
