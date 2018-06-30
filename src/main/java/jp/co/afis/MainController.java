@@ -6,26 +6,17 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import jp.co.afis.bean.Position;
-import jp.co.afis.cell.*;
 import jp.co.afis.control.MyLabel;
-import jp.co.afis.cell.Attack;
 import jp.co.afis.model.AppliableStatus;
 import jp.co.afis.model.Board;
 import jp.co.afis.model.CellDispStatus;
 import jp.co.afis.model.Game;
 import jp.co.afis.model.cell.Cell;
-import jp.co.afis.model.cell.CellStatus;
 import jp.co.afis.model.cell.KomaType;
 import jp.co.afis.model.player.Winner;
-import jp.co.afis.player.NonPlayer;
-import jp.co.afis.player.Player;
-import jp.co.afis.player.Player2;
-import jp.co.afis.player.Player1;
 import jp.co.afis.util.AlertUtil;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -443,65 +434,4 @@ public class MainController {
         return row * colMax - (colMax - col);
     }
 
-    /**
-     * 渡された文字と等しい駒ビルダーを返却する。
-     *
-     * @param komaText
-     * @param player
-     * @return
-     */
-    private ShougiCellBuilder pollSelectedShougiCellBuilder(String komaText, Player player) {
-        komaText = komaText.substring(0, 1);
-        switch (komaText) {
-            case "歩":
-                return player.pollFu();
-            case "金":
-                return player.pollKin();
-            case "銀":
-                return player.pollGin();
-            case "桂":
-                return player.pollKeima();
-            case "角":
-                return player.pollKaku();
-            case "飛":
-                return player.pollHisha();
-            case "香":
-                return player.pollKyosha();
-            case "王":
-                return player.pollOu();
-        }
-        return null;
-    }
-
-    /**
-     * 駒ビルダーを元のリストに返却する。
-     * 一度取り出したビルダーをもとに戻すために使う。
-     *
-     * @param builder
-     * @param komaText
-     * @param player
-     * @return
-     */
-    private boolean offerFirstSelectedShougiCellBuilder(ShougiCellBuilder builder, String komaText, Player player) {
-        komaText = komaText.substring(0, 1);
-        switch (komaText) {
-            case "歩":
-                return player.offerFirstFu(builder);
-            case "金":
-                return player.offerFirstKin(builder);
-            case "銀":
-                return player.offerFirstGin(builder);
-            case "桂":
-                return player.offerFirstKeima(builder);
-            case "角":
-                return player.offerFirstKaku(builder);
-            case "飛":
-                return player.offerFirstHisha(builder);
-            case "香":
-                return player.offerFirstKyosha(builder);
-            case "王":
-                return player.offerFirstOu(builder);
-        }
-        return false;
-    }
 }
