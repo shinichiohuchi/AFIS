@@ -338,7 +338,6 @@ public class MainController {
         // 駒と領土の描画
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                Cell cell = cells[i][j];
                 int index = calcArrayIndex(i + 1, j + 1, colCount);
 
                 Node node = nodeList.get(index);
@@ -378,17 +377,6 @@ public class MainController {
                         node.setStyle("-fx-background-color: yellow;");
                         break;
                 }
-
-//                if (!(cell instanceof Attack || cell instanceof Ryodo)) {
-//                    int cellFlag = cell.getClickableBitFlag();
-//                    if (0 < cellFlag) {
-//                        Player nextPlayer = playerTurnList.get(0);
-//                        int playerFlag = nextPlayer.getPlayerBitFlag();
-//                        if ((cellFlag & playerFlag) == playerFlag) {
-//                            node.setStyle("-fx-background-color: #f0e68c;");
-//                        }
-//                    }
-//                }
             }
         }
 

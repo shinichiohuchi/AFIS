@@ -200,6 +200,7 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
                 , CellStatus.Ou -> return CellDispStatus.PLAYER1_KOMA
             CellStatus.Ryodo -> return CellDispStatus.PLAYER1_RYODO
             CellStatus.Ryochi -> return CellDispStatus.PLAYER1_RYOCHI
+            CellStatus.Jinchi -> return CellDispStatus.PLAYER1_JINCHI
         }
         when (cell.status.player2) {
             CellStatus.Fu
@@ -212,6 +213,7 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
                 , CellStatus.Ou -> return CellDispStatus.PLAYER2_KOMA
             CellStatus.Ryodo -> return CellDispStatus.PLAYER2_RYODO
             CellStatus.Ryochi -> return CellDispStatus.PLAYER2_RYOCHI
+            CellStatus.Jinchi -> return CellDispStatus.PLAYER2_JINCHI
         }
         return CellDispStatus.NONE
     }
