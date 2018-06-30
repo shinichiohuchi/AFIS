@@ -290,6 +290,9 @@ public class MainController {
                         case NOT_OWN_AREA:
                             AlertUtil.showAlert("駒または領土に隣接しないマスに配置できません");
                             break;
+                        case NO_KOMAS:
+                            AlertUtil.showAlert("駒の数が不足しています。");
+                            break;
                     }
                 });
                 boardGridPane.add(label, j, i);

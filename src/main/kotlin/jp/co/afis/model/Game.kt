@@ -24,6 +24,8 @@ enum class AppliableStatus {
     NOT_OWN_AREA,
     /** 配列外エラー */
     OUT_OF_RANGE,
+    /** 駒の残数なし */
+    NO_KOMAS,
 }
 
 /**
@@ -33,12 +35,17 @@ enum class AppliableStatus {
  * @param currentPlayer 操作プレイヤー
  * @return 配置可否、および不可の理由
  */
-internal fun calcAppliable(board: Board, pos: Position, currentPlayer: Player): AppliableStatus {
+internal fun calcAppliable(board: Board, pos: Position, players: Players, currentPlayer: Player): AppliableStatus {
     val row = pos.row
     val col = pos.col
 
+    // 範囲外のセルを指定していたらNG
     if (!pos.isWithinBoardRange(board.cells.size, board.cells[0].size))
         return AppliableStatus.OUT_OF_RANGE
+
+    // 駒の残数が0の場合はNG
+    if (!players.hasEnoughCountOfKomas())
+        return AppliableStatus.NO_KOMAS
 
     val statusPlayer1 = board.cells[row][col].status.player1
     val statusPlayer2 = board.cells[row][col].status.player2
@@ -92,7 +99,7 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9)) {
      * @param pos クリック位置
      */
     fun click(pos: Position): AppliableStatus {
-        val appliable = calcAppliable(board, pos, players.currentPlayer)
+        val appliable = calcAppliable(board, pos, players, players.currentPlayer)
         return when (appliable) {
             AppliableStatus.OK -> {
                 players.attack(board, pos)

@@ -27,30 +27,31 @@ internal class GameTest {
                 CellStatus.Kaku,
                 CellStatus.Ou
         )) {
+            val ps = Players()
             assertAll(
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, -1), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, -1), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 0), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 0), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 65535), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(-1, 65535), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, -1), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, -1), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, 65535), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(0, 65535), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, -1), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, -1), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 0), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 0), ps, Player1()))
                     },
                     Executable {
-                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 65535), Player1()))
+                        assertEquals(AppliableStatus.OUT_OF_RANGE, calcAppliable(Board(9, 9), Position(65535, 65535), ps, Player1()))
                     },
                     // Pattern1 ~ 10
                     Executable {
@@ -59,8 +60,8 @@ internal class GameTest {
                         board.cells[row][col].status.player2 = CellStatus.Ryodo
 
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
 
                     },
@@ -70,8 +71,8 @@ internal class GameTest {
                         board.cells[row][col].status.player2 = CellStatus.Ryochi
 
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
 
                     },
@@ -81,8 +82,8 @@ internal class GameTest {
                         board.cells[row][col].status.player2 = CellStatus.Jinchi
 
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
 
                     },
@@ -92,8 +93,8 @@ internal class GameTest {
                         board.cells[row][col].status.player2 = CellStatus.Empty
 
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
 
                     },
@@ -104,8 +105,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryodo
                         board.cells[row][col].status.player2 = koma
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -113,8 +114,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryodo
                         board.cells[row][col].status.player2 = CellStatus.Ryodo
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -122,8 +123,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryodo
                         board.cells[row][col].status.player2 = CellStatus.Ryochi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -131,8 +132,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryodo
                         board.cells[row][col].status.player2 = CellStatus.Jinchi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -140,8 +141,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryodo
                         board.cells[row][col].status.player2 = CellStatus.Empty
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
 
@@ -151,8 +152,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryochi
                         board.cells[row][col].status.player2 = koma
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -160,8 +161,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryochi
                         board.cells[row][col].status.player2 = CellStatus.Ryodo
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -169,8 +170,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryochi
                         board.cells[row][col].status.player2 = CellStatus.Ryochi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -178,8 +179,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryochi
                         board.cells[row][col].status.player2 = CellStatus.Jinchi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -187,8 +188,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Ryochi
                         board.cells[row][col].status.player2 = CellStatus.Empty
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
 
@@ -199,8 +200,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Jinchi
                         board.cells[row][col].status.player2 = koma
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -208,8 +209,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Jinchi
                         board.cells[row][col].status.player2 = CellStatus.Ryodo
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -217,8 +218,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Jinchi
                         board.cells[row][col].status.player2 = CellStatus.Ryochi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -227,8 +228,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Jinchi
                         board.cells[row][col].status.player2 = CellStatus.Jinchi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -236,8 +237,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Jinchi
                         board.cells[row][col].status.player2 = CellStatus.Empty
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
 
@@ -247,8 +248,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Empty
                         board.cells[row][col].status.player2 = koma
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.KOMA_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -256,8 +257,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Empty
                         board.cells[row][col].status.player2 = CellStatus.Ryodo
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.RYODO_EXISTS, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -265,8 +266,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Empty
                         board.cells[row][col].status.player2 = CellStatus.Ryochi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -274,8 +275,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Empty
                         board.cells[row][col].status.player2 = CellStatus.Jinchi
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.OK, calcAppliable(board, pos, ps, Player2())) }
                         )
                     },
                     Executable {
@@ -283,8 +284,8 @@ internal class GameTest {
                         board.cells[row][col].status.player1 = CellStatus.Empty
                         board.cells[row][col].status.player2 = CellStatus.Empty
                         assertAll(
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player1())) },
-                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, Player2())) }
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player1())) },
+                                Executable { assertEquals(AppliableStatus.NOT_OWN_AREA, calcAppliable(board, pos, ps, Player2())) }
                         )
                     }
             )
