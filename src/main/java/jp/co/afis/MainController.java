@@ -1,5 +1,6 @@
 package jp.co.afis;
 
+import com.sun.prism.impl.ps.CachingEllipseRep;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -239,6 +240,9 @@ public class MainController {
         Optional<ButtonType> opt = alert.showAndWait();
         opt.ifPresent(b -> {
             if (b == ButtonType.YES) {
+                AppliableStatus result = game.skip();
+                if (result == AppliableStatus.NO_CLICKABLE_POSITIONS)
+                    AlertUtil.showAlert("プレイヤー2にクリック可能な位置がないのでスキップしました"); // TODO
                 updateDisplay();
             }
         });
@@ -278,7 +282,6 @@ public class MainController {
                             Cell cell = game.getBoard().getCell(new Position(r, c));
                             String text = game.getBoard().getCellText(cell);
                             label.setText(text);
-                            updateDisplay();
                             break;
                         case KOMA_EXISTS:
                             AlertUtil.showAlert("駒の上には配置できません。");
@@ -292,7 +295,14 @@ public class MainController {
                         case NO_KOMAS:
                             AlertUtil.showAlert("駒の数が不足しています。");
                             break;
+                        case NO_CLICKABLE_POSITIONS:
+                            AlertUtil.showAlert("プレイヤー2に配置可能な場所がなかったためスキップしました。");
+                            break;
+                        default:
+                            AlertUtil.showAlert("不明なステータスです。" + result);
+
                     }
+                    updateDisplay();
                 });
                 boardGridPane.add(label, j, i);
             }
@@ -394,6 +404,22 @@ public class MainController {
         int player2Score = game.calcPlayer2Score();
         player1ScoreLabel.setText("" + player1Score);
         player2ScoreLabel.setText("" + player2Score);
+
+        // セルのテキストを更新する。
+        int r = 0;
+        for (Cell[] cs : game.getBoard().getCells()) {
+            int c = 0;
+            for (Cell cell:cs) {
+                int index = calcArrayIndex(r + 1, c + 1, colCount);
+                MyLabel lbl = (MyLabel) boardGridPane.getChildren().get(index);
+                Cell boardCell = game.getBoard().getCells()[r][c];
+                lbl.setText(boardCell.getStatus().getPlayer1().getText());
+                //lbl.setText(boardCell.getStatus().getPlayer2().getText());
+                c++;
+            }
+            r++;
+        }
+
 
         // 勝敗の判定
         showWinner(player1Score, player2Score);

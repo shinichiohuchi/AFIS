@@ -101,7 +101,7 @@ internal fun calcAppliable(board: Board, pos: Position, players: Players, curren
  * @param col 将棋盤の列数
  * @return Gameクラス
  */
-internal fun createGameWithConfig(playConfigPath:String, komaConfigFile: String, row: Int, col:Int): Game {
+internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String, row: Int, col: Int): Game {
     val prop = Properties()
 
     // CPUと対戦モード
@@ -141,7 +141,7 @@ internal fun createGameWithConfig(playConfigPath:String, komaConfigFile: String,
                     ouCount = ou
             )
     ), board = Board(row, col)
-    , vsCPU = vsCPUFlag)
+            , vsCPU = vsCPUFlag)
 
     return game
 }
@@ -189,7 +189,7 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
      */
     fun click(pos: Position): AppliableStatus {
         val appliable = attack(pos)
-        return when(appliable) {
+        return when (appliable) {
             AppliableStatus.OK -> {
                 // 対戦CPUモードがtrueのときはそのままCPUが攻撃をする
                 if (!vsCPU)
@@ -339,6 +339,29 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
         return CellDispStatus.NONE
     }
 
+    /**
+     * skip は現在の自分のターンをスキップして、カレントプレイヤーを切り換えます。
+     */
+    fun skip(): AppliableStatus {
+        players.switchCurrentPlayer()
+
+        // TODO: ここから先はコピペなんでなんとかしたい
+        // 対戦CPUモードがtrueのときはそのままCPUが攻撃をする
+        if (!vsCPU)
+            return AppliableStatus.OK
+
+        // クリック可能な位置があれば後続の処理を実施
+        if (notExistAppliablePositions()) {
+            players.switchCurrentPlayer()
+            return AppliableStatus.NO_CLICKABLE_POSITIONS
+        }
+        // クリック可能な位置のリストを取得し、ランダムに選択
+        val poses = getAppliablePositionsOfCurrentPlayer()
+        val rand = Random()
+        val randIndex = rand.nextInt(poses.size)
+        val pos = poses[randIndex]
+        return attack(pos)
+    }
 }
 
 enum class CellDispStatus {
