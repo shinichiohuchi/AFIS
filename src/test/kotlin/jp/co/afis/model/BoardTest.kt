@@ -141,17 +141,62 @@ internal class BoardTest {
         val board = Board(9, 9)
         board.cells[6][2].status.player1 = CellStatus.Fu
         board.cells[5][2].status.player1 = CellStatus.Ryodo
+
+        board.cells[1][2].status.player2 = CellStatus.Fu
+        board.cells[2][2].status.player2 = CellStatus.Ryodo
         board.updateRyochi()
         assertAll(
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][1]) },
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][2]) },
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][3]) },
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][1]) },
-                Executable { assertEquals(CellStatus.Ryodo, board.cells[5][2]) },
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][3]) },
-                Executable { assertEquals(CellStatus.Jinchi, board.cells[5][1]) },
-                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][2]) },
-                Executable { assertEquals(CellStatus.Jinchi, board.cells[5][3]) }
+                Executable { assertEquals(CellStatus.Empty, board.cells[4][1].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[4][2].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[4][3].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][1].status.player1) },
+                Executable { assertEquals(CellStatus.Ryodo, board.cells[5][2].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[5][3].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[6][1].status.player1) },
+                Executable { assertEquals(CellStatus.Fu, board.cells[6][2].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[6][3].status.player1) },
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[7][1].status.player1) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[7][2].status.player1) },
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[7][3].status.player1) },
+
+                Executable { assertEquals(CellStatus.Empty, board.cells[4][1].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[4][2].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[4][3].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[5][1].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[5][2].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[5][3].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[6][1].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[6][2].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[6][3].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[7][1].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[7][2].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[7][3].status.player2) },
+
+                Executable { assertEquals(CellStatus.Empty, board.cells[0][1].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[0][2].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[0][3].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[1][1].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[1][2].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[1][3].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[2][1].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[2][2].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[2][3].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[3][1].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[3][2].status.player1) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[3][3].status.player1) },
+
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[0][1].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[0][2].status.player2) },
+                Executable { assertEquals(CellStatus.Jinchi, board.cells[0][3].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[1][1].status.player2) },
+                Executable { assertEquals(CellStatus.Fu, board.cells[1][2].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[1][3].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[2][1].status.player2) },
+                Executable { assertEquals(CellStatus.Ryodo, board.cells[2][2].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[2][3].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[3][1].status.player2) },
+                Executable { assertEquals(CellStatus.Ryochi, board.cells[3][2].status.player2) },
+                Executable { assertEquals(CellStatus.Empty, board.cells[3][3].status.player2) }
         )
     }
 

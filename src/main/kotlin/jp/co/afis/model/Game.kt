@@ -93,6 +93,14 @@ internal fun calcAppliable(board: Board, pos: Position, players: Players, curren
     return AppliableStatus.OK
 }
 
+/**
+ * createGameWithConfig は設定ファイルでGameクラスを生成する。
+ * @param playConfigPath ゲームプレイの設定ファイルパス
+ * @param komaConfigFile 駒の数を設定ファイルパス
+ * @param row 将棋盤の行数
+ * @param col 将棋盤の列数
+ * @return Gameクラス
+ */
 internal fun createGameWithConfig(playConfigPath:String, komaConfigFile: String, row: Int, col:Int): Game {
     val prop = Properties()
 
@@ -172,6 +180,7 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
             }
         }
     }
+
     /**
      * click は指定の位置のセルをクリックする。
      * クリックを正常に完了できた場合は、ターンが切り替わり、
@@ -270,12 +279,17 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
      * @return 勝者
      */
     fun getWinner(): Winner {
+        // それぞれの点数を取得
         val player1Score = board.calcPlayer1Score()
         val player2Score = board.calcPlayer2Score()
+
+        // セルの数と、両者の点数を足したときに
+        // 一致しなければまだゲームが終了していないものとする
         val sum = player1Score + player2Score
         val row = board.cells.size
         val col = board.cells[0].size
         val cellCount = row * col
+
         return if (sum < cellCount)
             Winner.NONE
         else {

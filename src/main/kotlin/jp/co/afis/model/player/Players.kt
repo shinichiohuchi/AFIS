@@ -4,6 +4,15 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.Board
 import jp.co.afis.model.cell.KomaType
 
+/**
+ * IllegalPlayerException は不正なプレイヤークラスが指定されたときに返される例外クラス。
+ * 通常は発生しない想定。
+ *
+ * @constructor
+ * 例外を返す
+ *
+ * @param message 例外メッセージ
+ */
 class IllegalPlayerException(message: String) : Exception(message)
 
 /**
@@ -12,6 +21,7 @@ class IllegalPlayerException(message: String) : Exception(message)
  * @param p1 返す対象1
  * @param p2 返す対象2
  * @return 切り換え後プレイヤー
+ * @exception IllegalPlayerException 不正なプレイヤークラスを渡した
  */
 internal fun getSwitchedPlayer(target: Player, p1: Player1, p2: Player2): Player {
     return when (target) {

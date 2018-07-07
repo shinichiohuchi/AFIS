@@ -134,7 +134,10 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
     }
 
     /**
-     * 領地をセットします。
+     * updateRyochi は駒と領土の位置から領地をセットします。
+     * 領地がセットされる条件は
+     * 1. 駒、あるいは領土に辺が隣接するマスである
+     * 2. 将棋盤の範囲内のセルである
      */
     fun updateRyochi() {
         clearRyochi()
@@ -155,7 +158,9 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
                         , CellStatus.Kaku
                         , CellStatus.Ou
                         , CellStatus.Ryodo -> Unit
-                    CellStatus.Ryochi, CellStatus.Empty -> {
+                    CellStatus.Ryochi
+                        , CellStatus.Jinchi
+                        , CellStatus.Empty -> {
                         when (cell.status.player2) {
                             CellStatus.Fu
                                 , CellStatus.Kin
@@ -166,7 +171,9 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
                                 , CellStatus.Kaku
                                 , CellStatus.Ou
                                 , CellStatus.Ryodo -> Unit
-                            CellStatus.Ryochi, CellStatus.Empty -> {
+                            CellStatus.Ryochi
+                                , CellStatus.Jinchi
+                                , CellStatus.Empty -> {
                                 cell.status.player1 = CellStatus.Ryochi
                             }
                         }
@@ -189,7 +196,9 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
                         , CellStatus.Kaku
                         , CellStatus.Ou
                         , CellStatus.Ryodo -> Unit
-                    CellStatus.Ryochi, CellStatus.Empty -> {
+                    CellStatus.Ryochi
+                        , CellStatus.Jinchi
+                        , CellStatus.Empty -> {
                         when (cell.status.player1) {
                             CellStatus.Fu
                                 , CellStatus.Kin
@@ -200,7 +209,9 @@ class Board(row: Int, col: Int, val cells: Array<Array<Cell>> = createInitCells(
                                 , CellStatus.Kaku
                                 , CellStatus.Ou
                                 , CellStatus.Ryodo -> Unit
-                            CellStatus.Ryochi, CellStatus.Empty -> {
+                            CellStatus.Ryochi
+                                , CellStatus.Jinchi
+                                , CellStatus.Empty -> {
                                 cell.status.player2 = CellStatus.Ryochi
                             }
                         }

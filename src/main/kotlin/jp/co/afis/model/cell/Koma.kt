@@ -48,18 +48,16 @@ internal fun createInitCells(row: Int, col: Int): Array<Array<Cell>> {
     var arr: Array<Array<Cell>> = emptyArray()
     val jinchiCount = calcArea(row)
     (0 until jinchiCount).forEach { r ->
-        arr += arrayOf(Array(col, { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses(player2 = CellStatus.Jinchi)) }))
+        arr += arrayOf(Array(col) { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses(player2 = CellStatus.Jinchi)) })
     }
     (jinchiCount until row - jinchiCount).forEach { r ->
-        arr += arrayOf(Array(col, { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses()) }))
+        arr += arrayOf(Array(col) { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses()) })
     }
     (row - jinchiCount until row).forEach { r ->
-        arr += arrayOf(Array(col, { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses(player1 = CellStatus.Jinchi)) }))
+        arr += arrayOf(Array(col) { c -> Cell(pos = Position(row = r, col = c), status = CellStatuses(player1 = CellStatus.Jinchi)) })
     }
     return arr
 }
-
-class Koma(val text: String, val attack: (Board, Position) -> Unit)
 
 enum class KomaType {
     FU, KIN, GIN, KEIMA, KYOSHA, HISHA, KAKU, OU

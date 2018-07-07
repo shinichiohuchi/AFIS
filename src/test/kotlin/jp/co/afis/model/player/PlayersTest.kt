@@ -6,6 +6,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 
+internal class IllegalPlayerExceptionTest{
+    @Test
+    fun testConstructor() {
+        val e = IllegalPlayerException("プレイヤーが不正です。")
+        assertAll(
+                Executable { assertEquals(true, e is Exception) },
+                Executable { assertEquals("プレイヤーが不正です。", e.message) }
+        )
+    }
+}
+
 internal class PlayersTest {
     @Test
     fun testConstructor() {
