@@ -245,10 +245,12 @@ public class MainController {
     }
 
     private void createBoard(int row, int col) {
-        String propPath = "./config/komas.properties";
-        boolean exist = new File(propPath).exists();
-        if (exist) {
-            game = GameKt.createGameWithConfig(propPath, row, col);
+        String playPropPath = "./config/play.properties";
+        String komaPropPath = "./config/koma.properties";
+        boolean playPropExists = new File(playPropPath).exists();
+        boolean komaPropExists = new File(komaPropPath).exists();
+        if (playPropExists && komaPropExists) {
+            game = GameKt.createGameWithConfig(playPropPath, komaPropPath, row, col);
         } else {
             game = new Game(new Board(row, col));
         }

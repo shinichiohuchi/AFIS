@@ -28,6 +28,8 @@ enum class AppliableStatus {
     OUT_OF_RANGE,
     /** 駒の残数なし */
     NO_KOMAS,
+    /** 配置可能な場所なし */
+    NO_CLICKABLE_POSITIONS,
 }
 
 /**
@@ -91,10 +93,15 @@ internal fun calcAppliable(board: Board, pos: Position, players: Players, curren
     return AppliableStatus.OK
 }
 
-internal fun createGameWithConfig(configFile: String, row: Int, col:Int): Game {
+internal fun createGameWithConfig(playConfigPath:String, komaConfigFile: String, row: Int, col:Int): Game {
     val prop = Properties()
-    prop.load(FileInputStream(configFile))
 
+    // CPUと対戦モード
+    prop.load(FileInputStream(playConfigPath))
+    val vsCPUFlag = prop.getProperty("vsCPU").toBoolean()
+
+    // 駒の個数
+    prop.load(FileInputStream(komaConfigFile))
     val fu = prop.getProperty("fu").toInt()
     val kin = prop.getProperty("kin").toInt()
     val gin = prop.getProperty("gin").toInt()
@@ -125,7 +132,9 @@ internal fun createGameWithConfig(configFile: String, row: Int, col:Int): Game {
                     kakuCount = kaku,
                     ouCount = ou
             )
-    ), board = Board(row, col))
+    ), board = Board(row, col)
+    , vsCPU = vsCPUFlag)
+
     return game
 }
 
@@ -137,18 +146,18 @@ internal fun createGameWithConfig(configFile: String, row: Int, col:Int): Game {
  *
  * @param players プレイヤー1と2を保持する。
  * @param board 将棋盤
- * @param onCPU CPUによる自動攻撃を有効化する
+ * @param vsCPU CPUによる自動攻撃を有効化する
  */
-class Game(val players: Players = Players(), val board: Board = Board(9, 9), val onCPU: Boolean = false) {
+class Game(val players: Players = Players(), val board: Board = Board(9, 9), val vsCPU: Boolean = false) {
     constructor(board: Board) : this(players = Players(), board = board)
 
     /**
-     * click は指定の位置のセルをクリックする。
+     * attack は指定の位置のセルをクリックする。
      * クリックを正常に完了できた場合は、ターンが切り替わり、
      * 次にクリックしたときは相手プレイヤーとしてクリックすることになる。
      * @param pos クリック位置
      */
-    fun click(pos: Position): AppliableStatus {
+    fun attack(pos: Position): AppliableStatus {
         val appliable = calcAppliable(board, pos, players, players.currentPlayer)
         return when (appliable) {
             AppliableStatus.OK -> {
@@ -163,15 +172,53 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
             }
         }
     }
+    /**
+     * click は指定の位置のセルをクリックする。
+     * クリックを正常に完了できた場合は、ターンが切り替わり、
+     * 次にクリックしたときは相手プレイヤーとしてクリックすることになる。
+     * @param pos クリック位置
+     */
+    fun click(pos: Position): AppliableStatus {
+        val appliable = attack(pos)
+        return when(appliable) {
+            AppliableStatus.OK -> {
+                // 対戦CPUモードがtrueのときはそのままCPUが攻撃をする
+                if (!vsCPU)
+                    return appliable
+
+                // クリック可能な位置があれば後続の処理を実施
+                if (notExistAppliablePositions()) {
+                    players.switchCurrentPlayer()
+                    return AppliableStatus.NO_CLICKABLE_POSITIONS
+                }
+                // クリック可能な位置のリストを取得し、ランダムに選択
+                val poses = getAppliablePositionsOfCurrentPlayer()
+                val rand = Random()
+                val randIndex = rand.nextInt(poses.size)
+                val pos = poses[randIndex]
+                attack(pos)
+            }
+            else -> appliable
+        }
+    }
 
     /**
-     * eventWithCPU はCPUによる自動操作です。
-     * CPUは配置可能ないずれかのセルに駒の配置を試みます。
-     * 配置可能なますが存在しない場合はスキップします。
+     * notExistAppliablePositions は配置可能な駒が存在しないかどうかを判定する。
+     * @return 配置可能か否か
      */
-    fun eventWithCPU() {
-        val appliableCount = board.getAppliablePositionsOfPlayer2().size
-        TODO("test")
+    fun notExistAppliablePositions(): Boolean {
+        return getAppliablePositionsOfCurrentPlayer().isEmpty()
+    }
+
+    /**
+     * getAppliablePositionsOfCurrentPlayer は現在のプレイヤーのクリック可能な位置リストを返す。
+     * @return クリック可能な位置リスト
+     */
+    fun getAppliablePositionsOfCurrentPlayer(): List<Position> {
+        return if (players.currentPlayer is Player1)
+            board.getAppliablePositionsOfPlayer1()
+        else
+            board.getAppliablePositionsOfPlayer2()
     }
 
     /**
