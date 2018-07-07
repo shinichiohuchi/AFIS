@@ -12,6 +12,7 @@ import jp.co.afis.bean.Position;
 import jp.co.afis.control.MyLabel;
 import jp.co.afis.model.*;
 import jp.co.afis.model.cell.Cell;
+import jp.co.afis.model.cell.CellStatus;
 import jp.co.afis.model.cell.KomaType;
 import jp.co.afis.model.player.Player1;
 import jp.co.afis.model.player.Winner;
@@ -409,12 +410,18 @@ public class MainController {
         int r = 0;
         for (Cell[] cs : game.getBoard().getCells()) {
             int c = 0;
-            for (Cell cell:cs) {
+            for (Cell cell : cs) {
                 int index = calcArrayIndex(r + 1, c + 1, colCount);
                 MyLabel lbl = (MyLabel) boardGridPane.getChildren().get(index);
+
                 Cell boardCell = game.getBoard().getCells()[r][c];
-                lbl.setText(boardCell.getStatus().getPlayer1().getText());
-                //lbl.setText(boardCell.getStatus().getPlayer2().getText());
+                CellStatus s = boardCell.getStatus().getPlayer1();
+                if (s != CellStatus.Ryochi || s != CellStatus.Empty || s != CellStatus.Jinchi) {
+                    lbl.setText(boardCell.getStatus().getPlayer1().getText());
+                } else {
+                    lbl.setText(boardCell.getStatus().getPlayer2().getText());
+                }
+
                 c++;
             }
             r++;
