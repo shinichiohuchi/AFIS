@@ -4,7 +4,8 @@ import jp.co.afis.bean.Position
 import jp.co.afis.model.cell.CellStatus
 import jp.co.afis.model.cell.KomaType
 import jp.co.afis.model.player.*
-import java.io.FileInputStream
+import java.io.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -108,6 +109,14 @@ internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String
     prop.load(FileInputStream(playConfigPath))
     val vsCPUFlag = prop.getProperty("vsCPU").toBoolean()
 
+    // プレイ結果をログに出力
+    val useLogging = prop.getProperty("loggin").toBoolean()
+    val logDir = prop.getProperty("logDir")
+    val dateFormat = prop.getProperty("dateFormat")
+    val now = SimpleDateFormat(dateFormat).format(Date())
+    val logFilePath = "$logDir/$now.csv"
+    val encoding = prop.getProperty("encoding")
+
     // 駒の個数
     prop.load(FileInputStream(komaConfigFile))
     val fu = prop.getProperty("fu").toInt()
@@ -141,8 +150,14 @@ internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String
                     ouCount = ou
             )
     ), board = Board(row, col)
-            , vsCPU = vsCPUFlag)
+            , vsCPU = vsCPUFlag
+            , useLoggin = useLogging
+            , logFilePath = logFilePath
+            , encoding = encoding
+    )
 
+    game.openLogger()
+    game.write("Player,Row,Col,AttackType,ClickResult,Player1Score,Player2Score")
     return game
 }
 
@@ -156,8 +171,33 @@ internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String
  * @param board 将棋盤
  * @param vsCPU CPUによる自動攻撃を有効化する
  */
-class Game(val players: Players = Players(), val board: Board = Board(9, 9), val vsCPU: Boolean = false) {
+class Game(val players: Players = Players(), val board: Board = Board(9, 9), val vsCPU: Boolean = false, val useLoggin: Boolean = false, val logFilePath: String? = null, val encoding: String = "UTF-8") {
     constructor(board: Board) : this(players = Players(), board = board)
+
+    var writer: PrintWriter? = null
+
+    fun openLogger() {
+        if (useLoggin) {
+            if (logFilePath != null) {
+                val f = File(logFilePath)
+                val fos = FileOutputStream(f)
+                val osw = OutputStreamWriter(fos, encoding)
+                val bw = BufferedWriter(osw)
+                writer = PrintWriter(bw)
+            }
+        }
+    }
+
+    fun write(text: String) {
+        if (useLoggin) writer?.println(text)
+    }
+
+    fun closeLogger() {
+        if (useLoggin) {
+            writer?.close()
+            writer = null
+        }
+    }
 
     /**
      * attack は指定の位置のセルをクリックする。
@@ -167,6 +207,10 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
      */
     fun attack(pos: Position): AppliableStatus {
         val appliable = calcAppliable(board, pos, players, players.currentPlayer)
+        val cp = players.currentPlayer
+        val currentPlayerName = if (cp is Player1) "Player1" else "Player2"
+        write("$currentPlayerName,${pos.row},${pos.col},${players.currentPlayer.currentAttackType},$appliable,${calcPlayer1Score()},${calcPlayer2Score()}")
+
         return when (appliable) {
             AppliableStatus.OK -> {
                 players.attack(board, pos)

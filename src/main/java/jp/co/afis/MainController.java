@@ -430,6 +430,9 @@ public class MainController {
         if (winner == Winner.NONE)
             return;
 
+        game.write("Winner," + winner);
+        game.closeLogger();
+
         if (winner == Winner.PLAYER1 || winner == Winner.PLAYER2) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("ゲーム終了！");
