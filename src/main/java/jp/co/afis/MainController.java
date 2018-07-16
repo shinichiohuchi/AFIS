@@ -18,6 +18,7 @@ import jp.co.afis.model.player.Player1;
 import jp.co.afis.model.player.Winner;
 import jp.co.afis.util.AlertUtil;
 
+import javax.swing.plaf.FontUIResource;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
@@ -416,10 +417,31 @@ public class MainController {
 
                 Cell boardCell = game.getBoard().getCells()[r][c];
                 CellStatus s = boardCell.getStatus().getPlayer1();
-                if (s != CellStatus.Ryochi || s != CellStatus.Empty || s != CellStatus.Jinchi) {
-                    lbl.setText(boardCell.getStatus().getPlayer1().getText());
-                } else {
-                    lbl.setText(boardCell.getStatus().getPlayer2().getText());
+                switch (s) {
+                    case Fu:
+                    case Kin:
+                    case Gin:
+                    case Keima:
+                    case Kyosha:
+                    case Hisha:
+                    case Kaku:
+                    case Ou:
+                        lbl.setText(boardCell.getStatus().getPlayer1().getText());
+                        break;
+                }
+
+                s = boardCell.getStatus().getPlayer2();
+                switch (s) {
+                    case Fu:
+                    case Kin:
+                    case Gin:
+                    case Keima:
+                    case Kyosha:
+                    case Hisha:
+                    case Kaku:
+                    case Ou:
+                        lbl.setText(boardCell.getStatus().getPlayer2().getText());
+                        break;
                 }
 
                 c++;
