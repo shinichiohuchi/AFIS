@@ -101,6 +101,7 @@ internal fun calcAppliable(board: Board, pos: Position, players: Players, curren
  * @param row 将棋盤の行数
  * @param col 将棋盤の列数
  * @return Gameクラス
+ * @throws NumberFormatException
  */
 internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String, row: Int, col: Int): Game {
     val prop = Properties()
@@ -119,14 +120,26 @@ internal fun createGameWithConfig(playConfigPath: String, komaConfigFile: String
 
     // 駒の個数
     prop.load(FileInputStream(komaConfigFile))
-    val fu = prop.getProperty("fu").toInt()
-    val kin = prop.getProperty("kin").toInt()
-    val gin = prop.getProperty("gin").toInt()
-    val keima = prop.getProperty("keima").toInt()
-    val kyosha = prop.getProperty("kyosha").toInt()
-    val hisha = prop.getProperty("hisha").toInt()
-    val kaku = prop.getProperty("kaku").toInt()
-    val ou = prop.getProperty("ou").toInt()
+    var fu: Int
+    var kin: Int
+    var gin: Int
+    var keima: Int
+    var kyosha: Int
+    var hisha: Int
+    var kaku: Int
+    var ou: Int
+    try {
+        fu = prop.getProperty("fu").toInt()
+        kin = prop.getProperty("kin").toInt()
+        gin = prop.getProperty("gin").toInt()
+        keima = prop.getProperty("keima").toInt()
+        kyosha = prop.getProperty("kyosha").toInt()
+        hisha = prop.getProperty("hisha").toInt()
+        kaku = prop.getProperty("kaku").toInt()
+        ou = prop.getProperty("ou").toInt()
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("駒の数の設定値が半角英数字ではありませんでした。\n設定ファイルを見直してください。")
+    }
 
     val game = Game(players = Players(
             player1 = Player1(

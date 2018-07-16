@@ -256,7 +256,13 @@ public class MainController {
         boolean playPropExists = new File(playPropPath).exists();
         boolean komaPropExists = new File(komaPropPath).exists();
         if (playPropExists && komaPropExists) {
-            game = GameKt.createGameWithConfig(playPropPath, komaPropPath, row, col);
+            try {
+                game = GameKt.createGameWithConfig(playPropPath, komaPropPath, row, col);
+            } catch (NumberFormatException e) {
+                // 設定ファイルに不備があったら、ダイアログを出力してアプリ自体を強制終了する。
+                AlertUtil.showAlert(e.getMessage());
+                Platform.exit();
+            }
         } else {
             game = new Game(new Board(row, col));
         }
