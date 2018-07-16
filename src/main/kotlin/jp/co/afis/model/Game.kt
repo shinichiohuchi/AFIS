@@ -364,7 +364,6 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
                 , CellStatus.Kaku
                 , CellStatus.Ou -> return CellDispStatus.PLAYER1_KOMA
             CellStatus.Ryodo -> return CellDispStatus.PLAYER1_RYODO
-            CellStatus.Ryochi -> return CellDispStatus.PLAYER1_RYOCHI
             CellStatus.Jinchi -> return CellDispStatus.PLAYER1_JINCHI
         }
         when (cell.status.player2) {
@@ -377,9 +376,17 @@ class Game(val players: Players = Players(), val board: Board = Board(9, 9), val
                 , CellStatus.Kaku
                 , CellStatus.Ou -> return CellDispStatus.PLAYER2_KOMA
             CellStatus.Ryodo -> return CellDispStatus.PLAYER2_RYODO
-            CellStatus.Ryochi -> return CellDispStatus.PLAYER2_RYOCHI
             CellStatus.Jinchi -> return CellDispStatus.PLAYER2_JINCHI
         }
+
+        // 領地の判定は優先度が最低なのであえて前のwhen式では判定していない
+        when (cell.status.player1) {
+            CellStatus.Ryochi -> return CellDispStatus.PLAYER1_RYOCHI
+        }
+        when (cell.status.player2) {
+            CellStatus.Ryochi -> return CellDispStatus.PLAYER2_RYOCHI
+        }
+
         return CellDispStatus.NONE
     }
 
