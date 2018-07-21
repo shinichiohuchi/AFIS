@@ -1,26 +1,26 @@
-AFIS -A Fantastic Invertible Shougi- マニュアル
+AFIS -A Fantastic Invertible Shougi- �}�j���A��
 ===============================================
 
-- バージョン       : 1.0.0
-- アイデア考案者   : チームつぬちよ (代表者 : 藤田玄)
-- 実装者           : 大内真一
-- 作成日           : 2017/09/02
-- 最終更新日       : 2018/07/17
-- 連絡先           : 
-- 実行ファイル名   : afis.jar
-- 動作確認・開発環境
+- �o�[�W����       : 1.0.0
+- �A�C�f�A�l�Ď�   : �`�[���ʂ��� (��\�� : ���c��)
+- ������           : ����^��
+- �쐬��           : 2017/09/02
+- �ŏI�X�V��       : 2018/07/17
+- �A����           : 
+- ���s�t�@�C����   : afis.jar
+- ����m�F�E�J����
   - OS             : Ubuntu 18.04
-  - プロセッサ     : Intel(R) Core(TM) i7-3667U CPU @ 2.00GHz
-  - メモリ         : 8GB RAM
+  - �v���Z�b�T     : Intel(R) Core(TM) i7-3667U CPU @ 2.00GHz
+  - ������         : 8GB RAM
   - Java           : openjdk version "1.8.0_171"
 
-使い方
+�g����
 ------
 
-### 通常のアプリの使い方
-#### zipの展開
-下記のフォルダ構成にします。(配布zip展開直後のフォルダ構成)
-フォルダなども配置してください。
+### �ʏ�̃A�v���̎g����
+#### zip�̓W�J
+���L�̃t�H���_�\���ɂ��܂��B(�z�zzip�W�J����̃t�H���_�\��)
+�t�H���_�Ȃǂ��z�u���Ă��������B
 
     .
     |-- README.txt
@@ -31,16 +31,16 @@ AFIS -A Fantastic Invertible Shougi- マニュアル
     `-- log
         `-- dummy.txt
 
-#### アプリの起動
-afis-1.0-SNAPSHOT.jarをダブルクリックしてください。  
+#### �A�v���̋N��
+afis-1.0-SNAPSHOT.jar���_�u���N���b�N���Ă��������B  
 
-### 設定値の変更
-#### 駒の数
-configフォルダ内のkoma.propertiesをメモ帳などで開いてください。
+### �ݒ�l�̕ύX
+#### ��̐�
+config�t�H���_����koma.properties���������ȂǂŊJ���Ă��������B
 
-それぞれの設定値は、ゲーム開始時の駒の数になります。  
-例えば、飛車のみにしたい場合は下記のような設定にしてください。  
-***※半角数字以外は使用できません***
+���ꂼ��̐ݒ�l�́A�Q�[���J�n���̋�̐��ɂȂ�܂��B  
+�Ⴆ�΁A��Ԃ݂̂ɂ������ꍇ�͉��L�̂悤�Ȑݒ�ɂ��Ă��������B  
+***�����p�����ȊO�͎g�p�ł��܂���***
 
 ```properties
 # Count of komas
@@ -54,16 +54,16 @@ kaku=0
 ou=0
 ```
 
-#### 対CPUモード
-configフォルダ内のplay.propertiesをメモ帳などで開いてください。
+#### ��CPU���[�h
+config�t�H���_����play.properties���������ȂǂŊJ���Ă��������B
 
-`vsCPU`という設定値を`vsCPU=false`にすると設定をオフにできます。  
-(先手、後手ともにプレイヤーが操作できるようになる)
+`vsCPU`�Ƃ����ݒ�l��`vsCPU=false`�ɂ���Ɛݒ���I�t�ɂł��܂��B  
+(���A���Ƃ��Ƀv���C���[������ł���悤�ɂȂ�)
 
-プレイの結果
+�v���C�̌���
 ------------
 
-logフォルダ内にCSVファイルが生成されています。  
-Excelなどで開くことができるので、そちらをご確認ください。
+log�t�H���_����CSV�t�@�C������������Ă��܂��B  
+Excel�ȂǂŊJ�����Ƃ��ł���̂ŁA����������m�F���������B
 
 <!-- vim: set ft=markdown: -->
