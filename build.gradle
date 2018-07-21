@@ -39,7 +39,10 @@ task zipApp(type: Zip, dependsOn: jar) {
         from "config/koma.properties"
         from "config/play.properties"
     }
-    from "README.md"
+    into("log") {
+        from "log/dummy.txt"
+    }
+    from "README.txt"
 }
 
 artifacts {
