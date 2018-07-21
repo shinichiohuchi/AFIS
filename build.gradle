@@ -27,7 +27,21 @@ compileTestKotlin {
 
 jar {
     manifest {
-        attributes "Main-Class" : "jp.co.afis.Main"
+        attributes "Main-Class": "jp.co.afis.Main"
     }
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task zipApp(type: Zip, dependsOn: jar) {
+    archiveName = "afis.zip"
+    from "build/libs/afis-1.0-SNAPSHOT.jar"
+    into("config") {
+        from "config/koma.properties"
+        from "config/play.properties"
+    }
+    from "README.md"
+}
+
+artifacts {
+    archives zipApp
 }
